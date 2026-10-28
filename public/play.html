@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#100b13">
+<meta name="color-scheme" content="dark">
+<title>Ніч кіношного жаху</title>
+<!-- Мінімальні стилі прямо тут: щоб текст було видно, навіть якщо інші файли не завантажились -->
+<style>
+html,body{background:#100b13;color:#ece3d4;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;margin:0}
+#boot{padding:2em 16px;text-align:center;font-size:18px;line-height:1.5}
+#boot b{color:#d4874f}
+</style>
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/play.css">
+<!-- Шрифти лежать у грі; display=swap: поки вони вантажаться, видно запасний шрифт -->
+<link rel="stylesheet" href="/css/fonts.css">
+</head>
+<body>
+<div class="fog"></div>
+<div class="app">
+  <header id="top" hidden>
+    <span class="me" id="meName"></span>
+    <span class="pts" id="meScore"></span>
+  </header>
+  <main id="main"><div class="card" id="boot"><p><b>Ніч кіношного жаху</b></p><p id="bootMsg">Підключаємось до гри…</p></div></main>
+  <footer id="foot">Ніч кіношного жаху</footer>
+</div>
+<div class="ptimer" id="ptimer" hidden>
+  <div class="dial"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="trk" cx="50" cy="50" r="44"/><circle class="arc" cx="50" cy="50" r="44" pathLength="100"/></svg><span class="num"></span></div>
+</div>
+<div class="banner" id="banner" hidden>Немає зв'язку, перепідключаємось…</div>
+<noscript><div id="boot">Увімкніть JavaScript у браузері або відкрийте цю адресу в Chrome чи Safari.</div></noscript>
+
+<script>
+// Якщо щось зламається, показуємо причину на екрані, а не чорний екран
+window.onerror = function (msg) {
+  var m = document.getElementById("main");
+  if (m && !window.quizStarted) m.innerHTML = '<div id="boot"><p><b>Сторінка не запустилась у цьому браузері.</b></p>' +
+    '<p>Відкрийте цю адресу в <b>Chrome</b> або <b>Safari</b> (а не у вбудованому браузері сканера QR).</p>' +
+    '<p style="color:#9a8c94;font-size:.8em">' + String(msg).replace(/[<>&]/g, "") + '</p></div>';
+};
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+if (typeof io === "undefined") window.onerror("Не завантажився файл socket.io.js");
+</script>
+<script src="/js/play.js"></script>
+</body>
+</html>

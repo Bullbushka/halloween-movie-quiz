@@ -1,0 +1,54 @@
+/* Спільне оформлення: перенесено з halloween-quiz-test.html */
+:root{
+  --night:#100b13;      /* background */
+  --crypt:#1c1420;      /* raised surfaces */
+  --bone:#ece3d4;       /* main text, paper */
+  --ash:#9a8c94;        /* secondary text */
+  --pumpkin:#d4874f;    /* accent */
+  --blood:#a5454b;      /* danger / wrong */
+  --moss:#b9c9a3;       /* correct */
+  --ink:#24161c;        /* text on paper */
+  --display:"Rubik Wet Paint","Impact","Arial Black",system-ui,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,"Courier New",monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{
+  background:
+    radial-gradient(120% 70% at 50% 115%, rgba(212,135,79,.13), transparent 60%),
+    radial-gradient(60% 40% at 15% -10%, rgba(165,69,75,.08), transparent 70%),
+    var(--night);
+  color:var(--bone);font-family:var(--body);
+}
+.fog{position:fixed;inset:auto -20% -10% -20%;height:45%;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 60% at 30% 70%,rgba(239,229,211,.06),transparent 70%),
+             radial-gradient(35% 55% at 75% 80%,rgba(239,229,211,.05),transparent 70%);
+  animation:drift 28s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(8%)}}
+
+.eyebrow{font-family:var(--mono);font-size:.75em;letter-spacing:.18em;text-transform:uppercase;color:var(--pumpkin)}
+/* У шрифту Rubik Wet Paint «патьоки» звисають нижче рядка: даємо їм місце знизу і між рядками */
+h1,h2{font-family:var(--display);font-weight:400;margin:0;line-height:1.15;padding-bottom:.2em;text-wrap:balance}
+h1{color:var(--pumpkin);text-shadow:0 0 .4em rgba(212,135,79,.18)}
+h1.flicker{animation:flicker 6s infinite}
+@keyframes flicker{0%,92%,100%{opacity:1}93%{opacity:.55}94%{opacity:1}96%{opacity:.7}97%{opacity:1}}
+h2{color:var(--bone)}
+.lead{max-width:44ch;color:var(--ash);font-size:1.1em;line-height:1.5;margin:0}
+.btn{font:800 1em var(--body);border:0;border-radius:.6em;padding:.75em 1.5em;cursor:pointer;background:var(--pumpkin);color:#1a0c04;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.btn.ghost{background:transparent;color:var(--bone);border:1.5px solid rgba(239,229,211,.35)}
+.btn.danger{background:var(--blood);color:var(--bone)}
+.btn:focus-visible,button:focus-visible{outline:3px solid var(--bone);outline-offset:3px}
+.hint{color:var(--blood);font-size:.8em;min-height:1.2em;margin:0}
+kbd{font-family:var(--mono);border:1px solid rgba(239,229,211,.25);border-radius:.3em;padding:.05em .4em}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+
+.banner{position:fixed;left:50%;top:.8em;transform:translateX(-50%);z-index:30;background:var(--blood);color:var(--bone);
+  font:600 .8em var(--body);padding:.5em 1em;border-radius:2em;box-shadow:0 .5em 1.5em rgba(0,0,0,.4)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}

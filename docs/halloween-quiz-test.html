@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ніч кіношного жаху</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+/* Layout: one 16:9-friendly stage, big type for a TV across the room; header = progress, footer = players */
+:root{
+  --night:#100b13;      /* background */
+  --crypt:#1c1420;      /* raised surfaces */
+  --bone:#ece3d4;       /* main text, paper */
+  --ash:#9a8c94;        /* secondary text */
+  --pumpkin:#d4874f;    /* accent */
+  --blood:#a5454b;      /* danger / wrong */
+  --moss:#b9c9a3;       /* correct */
+  --ink:#24161c;        /* text on paper */
+  --display:"Rubik Wet Paint","Impact",system-ui,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{
+  background:
+    radial-gradient(120% 70% at 50% 115%, rgba(212,135,79,.13), transparent 60%),
+    radial-gradient(60% 40% at 15% -10%, rgba(165,69,75,.08), transparent 70%),
+    var(--night);
+  color:var(--bone);font-family:var(--body);font-size:clamp(16px,1.5vw,26px);
+  overflow:hidden;
+}
+.app{height:100%;display:grid;grid-template-rows:auto 1fr auto;}
+/* fog */
+.fog{position:fixed;inset:auto -20% -10% -20%;height:45%;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 60% at 30% 70%,rgba(239,229,211,.06),transparent 70%),
+             radial-gradient(35% 55% at 75% 80%,rgba(239,229,211,.05),transparent 70%);
+  animation:drift 28s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(8%)}}
+
+header{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:1em;
+  padding:.8em max(16px,2.5vw);font-family:var(--mono);font-size:.7em;color:var(--ash);letter-spacing:.08em;text-transform:uppercase}
+.progress{display:flex;gap:.35em;flex-wrap:wrap}
+.progress i{display:block;width:1.6em;height:.35em;border-radius:1em;background:rgba(239,229,211,.14)}
+.progress i.done{background:var(--pumpkin);opacity:.55}
+.progress i.now{background:var(--pumpkin)}
+.tools{display:flex;gap:.5em}
+.tools button{font:inherit;color:var(--ash);background:none;border:1px solid rgba(239,229,211,.18);border-radius:.4em;padding:.35em .7em;cursor:pointer}
+.tools button:hover{color:var(--bone);border-color:var(--bone)}
+
+main{position:relative;z-index:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:1em max(16px,4vw)}
+.stage{width:100%;max-width:1400px;display:flex;flex-direction:column;align-items:center;gap:1.2em;text-align:center;animation:rise .45s ease-out}
+@keyframes rise{from{opacity:.0;transform:translateY(12px)}}
+
+.eyebrow{font-family:var(--mono);font-size:.75em;letter-spacing:.18em;text-transform:uppercase;color:var(--pumpkin)}
+h1,h2{font-family:var(--display);font-weight:400;margin:0;line-height:1;text-wrap:balance}
+h1{font-size:clamp(3rem,9vw,9rem);color:var(--pumpkin);text-shadow:0 0 .4em rgba(212,135,79,.18)}
+h1.flicker{animation:flicker 6s infinite}
+@keyframes flicker{0%,92%,100%{opacity:1}93%{opacity:.55}94%{opacity:1}96%{opacity:.7}97%{opacity:1}}
+h2{font-size:clamp(2.4rem,6vw,6rem);color:var(--bone)}
+.lead{max-width:44ch;color:var(--ash);font-size:1.1em;line-height:1.5;margin:0}
+.btn{font:800 1em var(--body);border:0;border-radius:.6em;padding:.75em 1.5em;cursor:pointer;background:var(--pumpkin);color:#1a0c04;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--bone);border:1.5px solid rgba(239,229,211,.35)}
+.btn:focus-visible,.tools button:focus-visible,.chip button:focus-visible{outline:3px solid var(--bone);outline-offset:3px}
+.keys{font-family:var(--mono);font-size:.6em;color:var(--ash);letter-spacing:.06em}
+kbd{font-family:var(--mono);border:1px solid rgba(239,229,211,.25);border-radius:.3em;padding:.05em .4em}
+
+/* setup */
+.setup{display:flex;flex-direction:column;gap:.8em;width:min(560px,100%)}
+.addrow{display:flex;gap:.5em}
+.addrow input{flex:1;min-width:0;font:600 1em var(--body);color:var(--bone);background:var(--crypt);border:1.5px solid rgba(239,229,211,.2);border-radius:.6em;padding:.65em .9em}
+.addrow input:focus{outline:none;border-color:var(--pumpkin)}
+.plist{display:flex;flex-wrap:wrap;gap:.5em;justify-content:center;min-height:2.5em}
+.plist span{display:inline-flex;align-items:center;gap:.5em;background:var(--crypt);border-radius:2em;padding:.4em .5em .4em 1em;font-weight:600}
+.plist button{border:0;background:rgba(239,229,211,.1);color:var(--ash);border-radius:50%;width:1.6em;height:1.6em;cursor:pointer}
+.hint{color:var(--blood);font-size:.8em;min-height:1.2em;margin:0}
+
+/* block intro */
+.blocknum{font-family:var(--display);font-size:clamp(5rem,16vw,14rem);line-height:.8;color:transparent;-webkit-text-stroke:2px var(--pumpkin);opacity:.7}
+.rules{max-width:46ch;background:var(--crypt);border-radius:.8em;padding:1em 1.4em;line-height:1.5;color:var(--bone);text-align:left}
+
+/* question frame */
+.qhead{display:flex;gap:.8em;align-items:baseline;justify-content:center;flex-wrap:wrap}
+.qnum{font-family:var(--mono);font-size:.75em;color:var(--ash);letter-spacing:.12em;text-transform:uppercase}
+.prompt{font-size:1.25em;font-weight:600;color:var(--ash);margin:0}
+
+.emoji{font-size:clamp(4rem,11vw,10rem);line-height:1.1;letter-spacing:.08em;filter:drop-shadow(0 .1em .3em rgba(0,0,0,.5))}
+
+.review{background:var(--bone);color:var(--ink);border-radius:.6em;padding:1.3em 1.6em;max-width:34em;text-align:left;box-shadow:0 1.2em 3em rgba(0,0,0,.45);transform:rotate(-1deg)}
+.review .who{display:flex;align-items:center;gap:.7em;font-weight:800}
+.review .ava{width:2.2em;height:2.2em;border-radius:50%;background:var(--pumpkin);display:grid;place-items:center;color:#1a0c04}
+.review .meta{font-weight:400;font-size:.75em;color:#6d5a60}
+.review .stars{color:var(--blood);font-size:1.3em;letter-spacing:.1em;margin:.5em 0 .3em}
+.review p{margin:0;line-height:1.55;font-size:1.1em}
+
+.rule{max-width:34em;border:.55em solid transparent;border-radius:.6em;padding:1.4em 1.8em;
+  background:linear-gradient(var(--crypt),var(--crypt)) padding-box,repeating-linear-gradient(45deg,var(--pumpkin) 0 14px,#1a0c04 14px 28px) border-box}
+.rule .label{font-family:var(--mono);font-size:.7em;letter-spacing:.2em;color:var(--pumpkin);text-transform:uppercase}
+.rule p{font-size:1.5em;font-weight:800;line-height:1.3;margin:.4em 0 0;text-wrap:balance}
+
+.screen{position:relative;width:min(960px,100%);aspect-ratio:16/9;max-height:56vh;background:#000;border-radius:.6em;overflow:hidden;box-shadow:0 0 0 1px rgba(239,229,211,.12),0 1.5em 4em rgba(0,0,0,.6)}
+.screen .yt, .screen .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.screen .mask-top{position:absolute;left:0;right:0;top:0;height:17%;background:#000;z-index:2}
+.screen .mask-bot{position:absolute;left:0;right:0;bottom:0;height:13%;background:#000;z-index:2}
+.curtain{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;gap:.6em;align-items:center;justify-content:center;
+  background:radial-gradient(60% 60% at 50% 50%,#2a1a22,#0c070b);cursor:pointer;border:0;color:var(--bone);font:inherit;width:100%}
+.curtain[hidden]{display:none}
+.play{width:3.6em;height:3.6em;border-radius:50%;background:var(--pumpkin);display:grid;place-items:center;color:#1a0c04;font-size:1.4em;box-shadow:0 0 0 .4em rgba(212,135,79,.18)}
+.curtain small{font-family:var(--mono);color:var(--ash);font-size:.7em;letter-spacing:.1em;text-transform:uppercase}
+.bars{display:flex;gap:.35em;align-items:flex-end;height:3em}
+.bars i{width:.5em;background:var(--pumpkin);border-radius:.2em;height:20%}
+.playing .bars i{animation:eq .9s ease-in-out infinite alternate}
+.bars i:nth-child(2){animation-delay:-.2s}.bars i:nth-child(3){animation-delay:-.5s}.bars i:nth-child(4){animation-delay:-.1s}.bars i:nth-child(5){animation-delay:-.7s}.bars i:nth-child(6){animation-delay:-.35s}
+@keyframes eq{from{height:15%}to{height:100%}}
+.err{position:absolute;inset:0;z-index:4;display:grid;place-items:center;padding:1.5em;background:#120a0e;color:var(--bone);font-size:.85em;line-height:1.5}
+.err b{color:var(--blood)}
+
+.blitz-q{font-size:clamp(1.6rem,3.6vw,3.2rem);font-weight:800;line-height:1.2;max-width:28ch;margin:0;text-wrap:balance}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7em;width:min(900px,100%)}
+.opts div{background:var(--crypt);border:1.5px solid rgba(239,229,211,.12);border-radius:.6em;padding:.8em 1em;font-weight:600;text-align:left;display:flex;gap:.7em;align-items:center}
+.opts b{font-family:var(--mono);color:var(--pumpkin)}
+.opts .right{border-color:var(--moss);background:rgba(185,201,163,.12)}
+.opts .dim{opacity:.35}
+
+.answer{width:min(900px,100%);display:flex;flex-direction:column;align-items:center;gap:.4em}
+.answer .a{font-family:var(--display);font-size:clamp(2rem,4.5vw,4rem);color:var(--moss);line-height:1.05;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+.answer .fact{color:var(--ash);max-width:52ch;line-height:1.5;margin:0}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+
+/* scores */
+.board{display:flex;flex-direction:column;gap:.45em;width:min(640px,100%)}
+.board div{display:grid;grid-template-columns:2.2em 1fr auto;align-items:center;gap:.8em;background:var(--crypt);border-radius:.6em;padding:.6em 1em;text-align:left;font-weight:600}
+.board .pos{font-family:var(--mono);color:var(--ash)}
+.board .pts{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--pumpkin);font-size:1.2em}
+.board.lead1 div:first-child{box-shadow:inset 0 0 0 2px var(--pumpkin)}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:1em;width:min(820px,100%)}
+.podium > div{flex:1;display:flex;flex-direction:column;align-items:center;gap:.4em;min-width:0}
+.podium .col{width:100%;border-radius:.6em .6em 0 0;background:var(--crypt);display:grid;place-items:center;font-family:var(--display);font-size:2.4em;color:var(--pumpkin)}
+.podium .name{font-weight:800;font-size:1.2em;overflow-wrap:anywhere}
+.podium .pts{font-family:var(--mono);color:var(--ash);font-size:.8em}
+
+/* footer: players */
+footer{position:relative;z-index:2;display:flex;align-items:center;gap:1em;justify-content:space-between;padding:.7em max(16px,2.5vw) 1em;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:.45em}
+.chip{display:inline-flex;align-items:center;background:var(--crypt);border-radius:2em;overflow:hidden;font-size:.8em;border:1px solid rgba(239,229,211,.1)}
+.chip .nm{padding:.45em .3em .45em .9em;font-weight:600}
+.chip .sc{font-family:var(--mono);color:var(--pumpkin);padding:0 .5em;font-variant-numeric:tabular-nums}
+.chip button{border:0;background:rgba(239,229,211,.07);color:var(--bone);width:2.1em;align-self:stretch;cursor:pointer;font:800 1em var(--body)}
+.chip button.plus{background:rgba(212,135,79,.18);color:var(--pumpkin)}
+.chip button:hover{filter:brightness(1.5)}
+.chip.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.12)}}
+.nav{display:flex;gap:.5em;margin-left:auto}
+.nav .btn{font-size:.85em;padding:.6em 1.1em}
+
+/* overlay scoreboard */
+.overlay{position:fixed;inset:0;z-index:10;background:rgba(10,6,9,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2em;padding:2em max(16px,4vw);backdrop-filter:blur(6px)}
+.overlay h2{font-size:clamp(2rem,4vw,3.6rem)}
+
+@media (max-width:640px){.opts{grid-template-columns:1fr}header .keys{display:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="fog"></div>
+<div class="app">
+  <header>
+    <div class="progress" id="progress"></div>
+    <div id="where"></div>
+    <div class="tools">
+      <button id="bScores" title="Таблиця балів (S)">Бали</button>
+      <button id="bFull" title="На весь екран (F)">⛶ Екран</button>
+    </div>
+  </header>
+  <main id="main"></main>
+  <footer id="footer"></footer>
+</div>
+<div class="overlay" id="overlay" hidden></div>
+
+<script>
+/* ============================================================
+   ДАНІ ВІКТОРИНИ. ТЕСТОВА ВЕРСІЯ: тільки заглушки.
+   Справжні питання будуть додані після погодження оформлення.
+   ============================================================ */
+const TEST_VIDEO = "aqz-KE-bpKQ"; // Big Buck Bunny (Blender Foundation) — нейтральний ролик для перевірки
+const QUIZ = {
+  title: "Ніч кіношного жаху",
+  subtitle: "Вікторина про фільми жахів і все, що лякає (або смішить) на Геловін",
+  blocks: [
+    { name:"Емодзі-постер", tagline:"Розшифруй фільм",
+      rules:"На екрані фільм, зашифрований емодзі. Хто перший правильно назве фільм, отримує 1 бал.",
+      questions:[
+        {type:"emoji", emoji:"🎃🧪👻", a:"[Тест] Тут буде назва фільму", fact:"Тут буде короткий кумедний факт про фільм."},
+        {type:"emoji", emoji:"🏚️🕯️📼", a:"[Тест] Назва фільму №2", fact:"Ще один факт-заглушка."}
+      ]},
+    { name:"Поганий відгук", tagline:"Глядач незадоволений",
+      rules:"Хтось подивився фільм і залишив дуже чесний відгук на одну зірку. Вгадайте, про який фільм ідеться.",
+      questions:[
+        {type:"review", author:"Тетяна К.", meta:"Переглянула 1 раз, більше не буду", stars:1,
+         text:"Тут буде смішний відгук обуреного глядача. Він точно описує сюжет, але з дуже дивного боку.", a:"[Тест] Назва фільму", fact:"Факт-заглушка."},
+        {type:"review", author:"Ігор, 41", meta:"Дивився з дітьми (помилка)", stars:2,
+         text:"Другий тестовий відгук. Перевіряємо, як виглядає довший текст на великому екрані, чи зручно читати з дивана і чи не дрібно.", a:"[Тест] Назва фільму №2", fact:"Факт-заглушка."}
+      ]},
+    { name:"3 секунди жаху", tagline:"Дивись уважно",
+      rules:"Покажемо коротенький фрагмент. Моргнули — пропустили. Можна переглянути ще раз, якщо всі попросять.",
+      questions:[
+        {type:"video", yt:TEST_VIDEO, start:60, end:63, a:"[Тест] Big Buck Bunny", fact:"Тестовий ролик. Перевіряємо, чи грає YouTube з файлу і чи сховано назву."},
+        {type:"video", yt:TEST_VIDEO, start:200, end:203, a:"[Тест] Big Buck Bunny", fact:"Другий фрагмент того самого ролика."}
+      ]},
+    { name:"Правила виживання", tagline:"Чого нас навчило кіно",
+      rules:"Кожен фільм жахів вчить чомусь корисному. Вгадайте, який фільм навчив нас цього правила.",
+      questions:[
+        {type:"rule", text:"Тут буде «правило виживання», якого навчив нас фільм.", a:"[Тест] Назва фільму", fact:"Факт-заглушка."},
+        {type:"rule", text:"Друге правило. Наприклад: ніколи не роби того, що робить герой фільму.", a:"[Тест] Назва фільму №2", fact:"Факт-заглушка."}
+      ]},
+    { name:"Вгадай по саундтреку", tagline:"Тільки слухати",
+      rules:"Ви почуєте музику з фільму. Екран залишиться темним, тож доведеться покладатися на вуха.",
+      questions:[
+        {type:"audio", yt:TEST_VIDEO, start:30, end:42, a:"[Тест] Звук з Big Buck Bunny", fact:"Перевіряємо, чи грає звук, коли відео сховане."}
+      ]},
+    { name:"Бліц", tagline:"Швидко і без роздумів",
+      rules:"Короткі питання з варіантами. Відповідайте швидко, хто перший, того й бал.",
+      questions:[
+        {type:"blitz", q:"Тестове питання бліцу з чотирма варіантами?", options:["Варіант А","Варіант Б","Варіант В","Варіант Г"], correct:1, a:"Варіант Б", fact:"Пояснення-заглушка."},
+        {type:"blitz", q:"Правда чи міф: це тестове питання?", options:["Правда","Міф"], correct:0, a:"Правда", fact:"Так, це тест."},
+        {type:"blitz", q:"Питання без варіантів: просто назвіть відповідь уголос.", a:"[Тест] Відповідь", fact:""}
+      ]}
+  ]
+};
+
+/* ============================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const STORE = "halloween-quiz-test-v1";
+let steps = [];
+let S = { i:0, revealed:{}, players:[] };
+
+function buildSteps(){
+  steps = [{t:"title"},{t:"setup"}];
+  const n = QUIZ.blocks.length;
+  QUIZ.blocks.forEach((b,bi)=>{
+    steps.push({t:"intro",bi});
+    b.questions.forEach((q,qi)=>steps.push({t:"q",bi,qi}));
+    if (bi < n-1) steps.push({t:"scores",bi});
+  });
+  steps.push({t:"final"});
+}
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(S)); }catch(e){} }
+function load(){ try{ const d = JSON.parse(localStorage.getItem(STORE)||"null"); if(d && Array.isArray(d.players)) S = Object.assign(S,d); }catch(e){} }
+
+/* ---------- render ---------- */
+function render(){
+  stopClip();
+  S.i = Math.max(0, Math.min(S.i, steps.length-1));
+  const st = steps[S.i];
+  renderHeader(st);
+  const m = $("#main");
+  if (st.t==="title") m.innerHTML = viewTitle();
+  else if (st.t==="setup") m.innerHTML = viewSetup();
+  else if (st.t==="intro") m.innerHTML = viewIntro(st.bi);
+  else if (st.t==="q") m.innerHTML = viewQ(st.bi, st.qi);
+  else if (st.t==="scores") m.innerHTML = viewScores(st.bi);
+  else m.innerHTML = viewFinal();
+  renderFooter(st);
+  wire(st);
+  save();
+}
+function renderHeader(st){
+  const p = $("#progress");
+  const cur = st.bi ?? (st.t==="final" ? QUIZ.blocks.length : -1);
+  p.innerHTML = QUIZ.blocks.map((b,k)=>`<i class="${k<cur?'done':k===cur?'now':''}" title="${esc(b.name)}"></i>`).join("");
+  $("#where").textContent = st.bi!=null ? `Блок ${st.bi+1} · ${QUIZ.blocks[st.bi].name}` : "";
+}
+function viewTitle(){
+  return `<div class="stage">
+    <div class="eyebrow">Геловін · вікторина</div>
+    <h1 class="flicker">${esc(QUIZ.title)}</h1>
+    <p class="lead">${esc(QUIZ.subtitle)}</p>
+    <div style="display:flex;gap:.6em;flex-wrap:wrap;justify-content:center">
+      <button class="btn" data-go="next">Почати</button>
+      ${S.players.length||Object.keys(S.revealed).length ? `<button class="btn ghost" id="reset">Нова гра</button>`:""}
+    </div>
+    <div class="keys"><kbd>→</kbd> далі · <kbd>←</kbd> назад · <kbd>Пробіл</kbd> показати відповідь · <kbd>P</kbd> програти фрагмент · <kbd>S</kbd> бали · <kbd>F</kbd> на весь екран</div>
+  </div>`;
+}
+function viewSetup(){
+  return `<div class="stage">
+    <div class="eyebrow">Крок 1</div>
+    <h2>Хто грає?</h2>
+    <div class="setup">
+      <form class="addrow" id="addForm" autocomplete="off">
+        <input id="pname" placeholder="Ім'я гравця" maxlength="20" aria-label="Ім'я гравця">
+        <button class="btn" type="submit">Додати</button>
+      </form>
+      <div class="plist">${S.players.map((p,k)=>`<span>${esc(p.name)} <button data-del="${k}" aria-label="Видалити ${esc(p.name)}">×</button></span>`).join("") || `<span style="background:none;color:var(--ash);font-weight:400">Поки нікого. Додайте хоча б одного гравця.</span>`}</div>
+      <p class="hint" id="hint"></p>
+    </div>
+    <button class="btn" data-go="next">Поїхали</button>
+  </div>`;
+}
+function viewIntro(bi){
+  const b = QUIZ.blocks[bi];
+  return `<div class="stage">
+    <div class="blocknum">${bi+1}</div>
+    <div class="eyebrow">${esc(b.tagline)} · ${b.questions.length} ${plural(b.questions.length,"питання","питання","питань")}</div>
+    <h2>${esc(b.name)}</h2>
+    <div class="rules">${esc(b.rules)}</div>
+  </div>`;
+}
+function viewQ(bi,qi){
+  const b = QUIZ.blocks[bi], q = b.questions[qi];
+  const key = bi+"-"+qi, rev = !!S.revealed[key];
+  let body = "";
+  if (q.type==="emoji") body = `<p class="prompt">Який це фільм?</p><div class="emoji">${esc(q.emoji)}</div>`;
+  else if (q.type==="review") body = `<div class="review">
+      <div class="who"><div class="ava">${esc((q.author||"?")[0])}</div><div>${esc(q.author)}<div class="meta">${esc(q.meta||"")}</div></div></div>
+      <div class="stars">${"★".repeat(q.stars||1)}${"☆".repeat(5-(q.stars||1))}</div>
+      <p>${esc(q.text)}</p></div>`;
+  else if (q.type==="rule") body = `<div class="rule"><div class="label">Правило виживання №${qi+1}</div><p>${esc(q.text)}</p></div><p class="prompt">Який фільм нас цього навчив?</p>`;
+  else if (q.type==="video") body = `<div class="screen" id="screen">
+      <div class="yt"><div id="ytTarget"></div></div>
+      <div class="mask-top"></div><div class="mask-bot"></div>
+      <button class="curtain" id="curtain"><div class="play">▶</div><small>Натисніть, щоб побачити (${q.end-q.start} с)</small></button>
+    </div>`;
+  else if (q.type==="audio") body = `<div class="screen" id="screen">
+      <div class="yt"><div id="ytTarget"></div></div>
+      <button class="curtain" id="curtain"><div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="play">▶</div><small id="audioLbl">Слухаємо ${q.end-q.start} с</small></button>
+    </div>`;
+  else if (q.type==="blitz") body = `<p class="blitz-q">${esc(q.q)}</p>${q.options ? `<div class="opts">${q.options.map((o,k)=>`<div class="${rev ? (k===q.correct?'right':'dim') : ''}"><b>${"АБВГ"[k]}</b>${esc(o)}</div>`).join("")}</div>`:""}`;
+
+  const ans = rev ? `<div class="answer"><div class="a">${esc(q.a)}</div>${q.fact?`<p class="fact">${esc(q.fact)}</p>`:""}</div>`
+                  : `<button class="btn ghost" id="reveal">Показати відповідь</button>`;
+  return `<div class="stage">
+    <div class="qhead"><span class="qnum">Питання ${qi+1} / ${b.questions.length}</span></div>
+    ${body}
+    ${ans}
+  </div>`;
+}
+function ranked(){ return S.players.map(p=>({...p})).sort((a,b)=>b.score-a.score); }
+function viewScores(bi){
+  return `<div class="stage">
+    <div class="eyebrow">Після блоку ${bi+1}</div>
+    <h2>Проміжні результати</h2>
+    ${boardHTML()}
+    <div class="eyebrow" style="color:var(--ash)">Далі: ${esc(QUIZ.blocks[bi+1].name)}</div>
+  </div>`;
+}
+function boardHTML(){
+  const r = ranked();
+  if (!r.length) return `<p class="lead">Гравців немає. Додайте їх на початку гри.</p>`;
+  return `<div class="board lead1">${r.map((p,k)=>`<div><span class="pos">${k+1}</span><span>${esc(p.name)}</span><span class="pts">${p.score}</span></div>`).join("")}</div>`;
+}
+function viewFinal(){
+  const r = ranked();
+  const top = [r[1],r[0],r[2]];
+  const h = [62,100,44];
+  const pod = r.length ? `<div class="podium">${top.map((p,k)=>p?`<div><div class="name">${esc(p.name)}</div><div class="pts">${p.score} ${plural(p.score,"бал","бали","балів")}</div><div class="col" style="height:${h[k]*2.2}px">${[2,1,3][k]}</div></div>`:`<div></div>`).join("")}</div>` : "";
+  const rest = r.slice(3);
+  return `<div class="stage">
+    <div class="eyebrow">Кінець гри</div>
+    <h1 class="flicker" style="font-size:clamp(2.6rem,6vw,6rem)">${r[0] ? "Переможець: "+esc(r[0].name) : "Гру завершено"}</h1>
+    ${pod}
+    ${rest.length?`<div class="board">${rest.map((p,k)=>`<div><span class="pos">${k+4}</span><span>${esc(p.name)}</span><span class="pts">${p.score}</span></div>`).join("")}</div>`:""}
+  </div>`;
+}
+function renderFooter(st){
+  const f = $("#footer");
+  const showChips = st.t==="q" || st.t==="intro";
+  const chips = showChips ? `<div class="chips">${S.players.map((p,k)=>`<span class="chip" id="chip${k}"><button data-minus="${k}" aria-label="Мінус бал ${esc(p.name)}">−</button><span class="nm">${esc(p.name)}</span><span class="sc">${p.score}</span><button class="plus" data-plus="${k}" aria-label="Плюс бал ${esc(p.name)}">+</button></span>`).join("")}</div>` : "";
+  const navs = st.t==="title" ? "" : `<div class="nav"><button class="btn ghost" data-go="prev">← Назад</button>${st.t!=="final"?`<button class="btn" data-go="next">Далі →</button>`:`<button class="btn ghost" id="reset2">Нова гра</button>`}</div>`;
+  f.innerHTML = chips + navs;
+}
+function plural(n,one,few,many){ const a=n%10,b=n%100; if(a===1&&b!==11)return one; if(a>=2&&a<=4&&(b<12||b>14))return few; return many; }
+
+/* ---------- actions ---------- */
+function go(d){
+  const st = steps[S.i];
+  if (d>0 && st.t==="setup" && !S.players.length){ $("#hint").textContent = "Додайте хоча б одного гравця."; $("#pname").focus(); return; }
+  S.i += d; render();
+}
+function reveal(){
+  const st = steps[S.i]; if (st.t!=="q") return false;
+  const key = st.bi+"-"+st.qi; if (S.revealed[key]) return false;
+  S.revealed[key] = true; stopClip(); render(); return true;
+}
+function addPoint(k,d){
+  const p = S.players[k]; if(!p) return;
+  p.score = Math.max(0, p.score + d); save();
+  const c = $("#chip"+k); if(c){ c.querySelector(".sc").textContent = p.score; c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); }
+  if (!$("#overlay").hidden) showOverlay();
+}
+function resetGame(){
+  S = { i:0, revealed:{}, players:S.players.map(p=>({name:p.name,score:0})) };
+  render();
+}
+function wire(st){
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go==="next"?1:-1));
+  document.querySelectorAll("[data-plus]").forEach(b=>b.onclick=()=>addPoint(+b.dataset.plus,1));
+  document.querySelectorAll("[data-minus]").forEach(b=>b.onclick=()=>addPoint(+b.dataset.minus,-1));
+  const r=$("#reveal"); if(r) r.onclick=reveal;
+  const rs=$("#reset"); if(rs) rs.onclick=resetGame;
+  const rs2=$("#reset2"); if(rs2) rs2.onclick=()=>{ resetGame(); };
+  if (st.t==="setup"){
+    $("#addForm").onsubmit = e=>{ e.preventDefault(); const v=$("#pname").value.trim(); if(!v) return;
+      S.players.push({name:v,score:0}); render(); $("#pname").focus(); };
+    document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{ S.players.splice(+b.dataset.del,1); render(); });
+    setTimeout(()=>$("#pname")&&$("#pname").focus(),50);
+  }
+  if (st.t==="q"){ const q = QUIZ.blocks[st.bi].questions[st.qi]; if(q.type==="video"||q.type==="audio") mountClip(q); }
+}
+
+/* ---------- YouTube ---------- */
+let player=null, clipTimer=null, clipQ=null, ytPromise=null;
+function loadYT(){
+  if (window.YT && YT.Player) return Promise.resolve();
+  if (!ytPromise) ytPromise = new Promise((res,rej)=>{
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = ()=>{ prev&&prev(); res(); };
+    const s=document.createElement("script"); s.src="https://www.youtube.com/iframe_api"; s.onerror=()=>{ytPromise=null;rej(new Error("load"))};
+    document.head.appendChild(s);
+    setTimeout(()=>rej(new Error("timeout")),15000);
+  });
+  return ytPromise;
+}
+function clipError(msg){
+  const sc=$("#screen"); if(!sc) return;
+  const d=document.createElement("div"); d.className="err"; d.innerHTML=msg; sc.appendChild(d);
+}
+function mountClip(q){
+  clipQ=q;
+  const cur=$("#curtain");
+  cur.onclick=()=>playClip();
+  loadYT().then(()=>{
+    if (clipQ!==q || !$("#ytTarget")) return;
+    const vars={start:q.start,controls:0,disablekb:1,rel:0,iv_load_policy:3,playsinline:1,fs:0,modestbranding:1};
+    if (location.protocol.startsWith("http")) vars.origin=location.origin;
+    player=new YT.Player("ytTarget",{width:"100%",height:"100%",videoId:q.yt,playerVars:vars,
+      events:{
+        onError:e=>{
+          const c=e.data, why = (c===101||c===150)?"власник ролика заборонив вбудовування":(c===153?"YouTube не дозволяє програвати з цього місця відкриття файлу":(c===100?"ролик видалено або він приватний":"невідома помилка"));
+          clipError(`<div><b>Фрагмент не відтворюється</b> (код ${c}): ${why}.</div>`);
+        }
+      }});
+  }).catch(()=>clipError(`<div><b>Не вдалося завантажити YouTube.</b><br>Перевірте інтернет і оновіть сторінку.</div>`));
+}
+function playClip(){
+  const q=clipQ; if(!q) return;
+  if(!player || typeof player.seekTo!=="function"){ const l=$("#curtain small"); if(l) l.textContent="Завантажується… натисніть ще раз"; return; }
+  const cur=$("#curtain");
+  if (q.type==="video") cur.hidden=true; else { cur.classList.add("playing"); const l=$("#audioLbl"); if(l) l.textContent="Грає…"; }
+  player.unMute && player.unMute(); player.setVolume && player.setVolume(100);
+  player.seekTo(q.start,true); player.playVideo();
+  clearInterval(clipTimer);
+  const t0=Date.now();
+  clipTimer=setInterval(()=>{
+    let t=0; try{ t=player.getCurrentTime(); }catch(e){}
+    if (t>=q.end || Date.now()-t0 > (q.end-q.start+8)*1000) endClip();
+  },80);
+}
+function endClip(){
+  clearInterval(clipTimer); clipTimer=null;
+  try{ player && player.pauseVideo(); }catch(e){}
+  const cur=$("#curtain"); if(!cur) return;
+  cur.hidden=false; cur.classList.remove("playing");
+  const l=cur.querySelector("small"); if(l) l.textContent="Ще раз";
+}
+function stopClip(){
+  clearInterval(clipTimer); clipTimer=null;
+  if(player){ try{ player.destroy(); }catch(e){} player=null; }
+  clipQ=null;
+}
+
+/* ---------- overlay & keys ---------- */
+function showOverlay(){
+  const o=$("#overlay");
+  o.innerHTML=`<div class="eyebrow">Поточні бали</div><h2>Таблиця</h2>${boardHTML()}<button class="btn ghost" id="closeOv">Закрити (S)</button>`;
+  o.hidden=false; $("#closeOv").onclick=()=>{o.hidden=true};
+}
+function toggleOverlay(){ const o=$("#overlay"); if(o.hidden) showOverlay(); else o.hidden=true; }
+function toggleFull(){
+  try{ if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }catch(e){}
+}
+$("#bScores").onclick=toggleOverlay;
+$("#bFull").onclick=toggleFull;
+document.addEventListener("keydown",e=>{
+  if (e.target.matches("input,textarea")) { if(e.key==="Escape") e.target.blur(); return; }
+  const k=e.key;
+  if (k==="ArrowRight"||k==="PageDown"){ e.preventDefault(); go(1); }
+  else if (k==="ArrowLeft"||k==="PageUp"){ e.preventDefault(); go(-1); }
+  else if (k===" "||k==="Enter"){ if(e.target.tagName==="BUTTON") e.target.blur(); e.preventDefault(); if(!reveal()) go(1); }
+  else if (k==="p"||k==="P"||k==="з"||k==="З"){ playClip(); }
+  else if (k==="s"||k==="S"||k==="і"||k==="І"){ toggleOverlay(); }
+  else if (k==="f"||k==="F"||k==="а"||k==="А"){ toggleFull(); }
+  else if (k==="Escape"){ $("#overlay").hidden=true; }
+});
+
+load(); buildSteps(); render();
+</script>
+</body>
+</html>

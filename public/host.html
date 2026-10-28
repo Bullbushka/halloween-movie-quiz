@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ніч кіношного жаху · ведуча</title>
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/host.css">
+</head>
+<body>
+<div class="fog"></div>
+<div class="app">
+  <header>
+    <div class="progress" id="progress"></div>
+    <div id="where"></div>
+    <div class="tools">
+      <button id="bSound" title="Увімкнути чи вимкнути звуки (M)">🔊 Звук</button>
+      <button id="bScores" title="Таблиця балів (S)">Бали</button>
+      <button id="bFull" title="На весь екран (F)">⛶ Екран</button>
+    </div>
+  </header>
+  <main id="main"><div class="stage"><p class="lead">Підключаємось до сервера…</p></div></main>
+  <footer id="footer"></footer>
+</div>
+<div class="timer" id="timer" hidden aria-live="off">
+  <div class="dial"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="trk" cx="50" cy="50" r="44"/><circle class="arc" cx="50" cy="50" r="44" pathLength="100"/></svg><span class="num"></span></div>
+  <span class="label"></span>
+</div>
+<div class="overlay" id="overlay" hidden></div>
+<div class="overlay menu" id="menu" hidden></div>
+<div class="overlay modal" id="modal" hidden></div>
+<div class="banner" id="banner" hidden>Зв'язок із сервером втрачено. Перевірте, чи відкрите вікно сервера…</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/sound.js"></script>
+<script src="/js/host.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+/* Телефон гравця: одна колонка, великі кнопки під великий палець */
+body{font-size:18px;min-height:100%;height:auto}
+.app{min-height:100vh;min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;position:relative;z-index:1}
+
+header{display:flex;align-items:center;justify-content:space-between;gap:.8em;padding:.9em 16px;font-family:var(--mono);font-size:.75em;color:var(--ash);letter-spacing:.06em;text-transform:uppercase}
+header .me{color:var(--bone);font-family:var(--body);font-weight:800;text-transform:none;letter-spacing:0;font-size:1.25em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+header .pts{background:var(--crypt);border-radius:2em;padding:.35em .8em;color:var(--pumpkin);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+main{display:flex;align-items:center;justify-content:center;padding:1em 16px 1.5em}
+/* без прозорості в анімації: якщо браузер її не програє, вміст однаково видно */
+.card{width:min(440px,100%);display:flex;flex-direction:column;gap:1em;align-items:stretch;text-align:center;animation:slide .4s ease-out}
+@keyframes slide{from{transform:translateY(12px)}}
+.card h1{font-size:clamp(2.3rem,11vw,3.6rem)}
+.card h2{font-size:clamp(2rem,10vw,3rem)}
+.card .lead{margin:0 auto}
+.big{font-size:3.4em;line-height:1}
+
+.field{font:600 1.1em var(--body);color:var(--bone);background:var(--crypt);border:1.5px solid rgba(239,229,211,.2);border-radius:.6em;padding:.85em 1em;width:100%}
+.field:focus{outline:none;border-color:var(--pumpkin)}
+.btn{font-size:1.1em;padding:.9em 1.2em;width:100%}
+
+.stickers{display:grid;grid-template-columns:repeat(4,1fr);gap:.5em}
+.stickers button{font-size:1.75em;line-height:1;height:1.9em;display:grid;place-items:center;cursor:pointer;
+  background:var(--crypt);border:2px solid rgba(239,229,211,.1);border-radius:.4em;padding:0}
+.stickers button.on{border-color:var(--pumpkin);background:rgba(212,135,79,.18)}
+
+.qmeta{font-family:var(--mono);font-size:.75em;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
+.qmeta b{color:var(--pumpkin);font-weight:500}
+
+/* timer: small round clock in the top-right corner, same look as on the big screen */
+.ptimer{position:fixed;z-index:5;top:3.4em;right:16px;pointer-events:none}
+.ptimer .dial{position:relative;width:3.8em;height:3.8em;display:grid;place-items:center;
+  background:radial-gradient(circle,var(--crypt) 60%,transparent 61%);border-radius:50%;filter:drop-shadow(0 .3em .8em rgba(0,0,0,.45))}
+.ptimer svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.ptimer circle{fill:none;stroke-width:8}
+.ptimer .trk{stroke:rgba(239,229,211,.12)}
+.ptimer .arc{stroke:var(--pumpkin);stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:0;transition:stroke-dashoffset .1s linear,stroke .3s}
+.ptimer .num{position:relative;font-family:var(--display);font-size:1.45em;line-height:1;padding-bottom:.08em;color:var(--pumpkin);font-variant-numeric:tabular-nums}
+.ptimer.pending .arc{stroke:rgba(239,229,211,.25)}
+.ptimer.pending .num{color:var(--ash)}
+.ptimer.paused .arc{stroke:var(--ash)}
+.ptimer.paused .num{color:var(--ash)}
+.ptimer.paused::after{content:"пауза";display:block;text-align:center;margin-top:.3em;font-family:var(--mono);font-size:.6em;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
+.ptimer.low .arc{stroke:var(--blood)}
+.ptimer.low .num{color:var(--blood);animation:beat 1s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.15)}}
+.timeup{font-family:var(--display);font-size:2.4em;line-height:1.15;padding-bottom:.2em;color:var(--blood);animation:pop .45s ease-out}
+
+.sent{background:var(--crypt);border-radius:.8em;padding:1em 1.2em;display:flex;flex-direction:column;gap:.4em;text-align:left;border:1.5px solid rgba(185,201,163,.35)}
+.sent .lbl{font-family:var(--mono);font-size:.7em;letter-spacing:.12em;text-transform:uppercase;color:var(--moss)}
+.sent .val{font-size:1.2em;font-weight:800;overflow-wrap:anywhere}
+
+.choices{display:grid;gap:.6em}
+.choices button{display:flex;gap:.8em;align-items:center;text-align:left;font:700 1.1em var(--body);color:var(--bone);background:var(--crypt);
+  border:2px solid rgba(239,229,211,.14);border-radius:.7em;padding:1em 1.1em;cursor:pointer;min-height:3.6em}
+.choices button b{font-family:var(--mono);color:var(--pumpkin);font-size:1.15em}
+.choices button.on{border-color:var(--pumpkin);background:rgba(212,135,79,.16)}
+.choices button:disabled{cursor:default}
+
+.res{border-radius:.9em;padding:1.4em 1.2em;display:flex;flex-direction:column;gap:.5em;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+.res.ok{background:rgba(185,201,163,.12);border:2px solid var(--moss)}
+.res.no{background:rgba(165,69,75,.12);border:2px solid var(--blood)}
+.res .head{font-family:var(--display);font-size:2.2em;line-height:1.2;padding-bottom:.15em}
+.res.ok .head{color:var(--moss)}
+.res.no .head{color:var(--bone)}
+.res .ans{color:var(--ash);line-height:1.4}
+.res .ans b{color:var(--bone)}
+
+.place{font-family:var(--display);font-size:5em;line-height:1.1;padding-bottom:.12em;color:var(--pumpkin)}
+.muted{color:var(--ash);font-size:.9em;line-height:1.5;margin:0}
+
+footer{padding:.6em 16px 1em;text-align:center;font-family:var(--mono);font-size:.65em;color:var(--ash);letter-spacing:.08em}

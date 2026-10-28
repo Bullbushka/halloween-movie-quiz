@@ -1,0 +1,441 @@
+{
+  "title": "Ніч кіношного жаху",
+  "subtitle": "Вікторина про фільми жахів і все, що лякає (або смішить) на Геловін",
+  "settings": {
+    "speedBonus": 0
+  },
+  "blocks": [
+    {
+      "name": "Емодзі-постер",
+      "tagline": "Розшифруй фільм",
+      "rules": "На екрані фільм, зашифрований емодзі. Напишіть його назву на телефоні й натисніть «Відповісти». Можна українською чи англійською, номер частини писати не треба. На відповідь 30 секунд, бал отримують усі, хто вгадав.",
+      "questions": [
+        {
+          "type": "emoji",
+          "emoji": "🌧️📄⛵🎈🤡",
+          "a": "b64:ItCS0L7QvdC+ICgyMDE3KSI=",
+          "accept": "b64:WyLQktC+0L3QviIsIkl0Iiwi0JLQvtC90L4gMjAxNyJd",
+          "fact": "b64:IsKr0JLQvtC90L7CuyDQv9C+0LHQuNC70L4g0YDQtdC60L7RgNC0IMKr0JXQutC30L7RgNGG0LjRgdGC0LDCuyDRliDRgdGC0LDQu9C+INC90LDQudC60LDRgdC+0LLRltGI0LjQvCDRhNGW0LvRjNC80L7QvCDQttCw0YXRltCyINCyINGW0YHRgtC+0YDRltGXOiDQv9C+0L3QsNC0IDcwMCDQvNGW0LvRjNC50L7QvdGW0LIg0LTQvtC70LDRgNGW0LIg0YMg0YHQstGW0YLRli4i"
+        },
+        {
+          "type": "emoji",
+          "emoji": "🛁⛓️🪚🧩",
+          "a": "b64:ItCf0LjQu9CwICgyMDA0KSI=",
+          "accept": "b64:WyLQn9C40LvQsCIsIlNhdyJd",
+          "fact": "b64:ItCf0LXRgNGI0LjQuSDRhNGW0LvRjNC8INC30L3Rj9C70Lgg0LvQuNGI0LUg0LfQsCAxOCDQtNC90ZbQsiwg0LAg0L/QvtGC0ZbQvCDQstGW0L0g0YDQvtC30YDRltGB0YHRjyDRgyDQstC10LvQuNGH0LXQt9C90YMg0YTRgNCw0L3RiNC40LfRgy4i"
+        },
+        {
+          "type": "emoji",
+          "emoji": "👦🎁🧸🔪",
+          "a": "b64:ItCU0LjRgtGP0YfQsCDQs9GA0LAgKDE5ODgpIg==",
+          "accept": "b64:WyLQlNC40YLRj9GH0LAg0LPRgNCwIiwiQ2hpbGQncyBQbGF5Iiwi0KfQsNC60ZYiLCJDaHVja3kiLCLQm9GP0LvRjNC60LAg0KfQsNC60ZYiXQ==",
+          "fact": "b64:ItCjINC60LvQsNGB0LjRh9C90LjRhSDRhNGW0LvRjNC80LDRhSDRgdC10YDRltGXINCn0LDQutGWINC+0LfQstGD0YfRg9GUINCw0LrRgtC+0YAg0JHRgNC10LQg0JTRg9GA0ZbRhC4i"
+        },
+        {
+          "type": "emoji",
+          "emoji": "🧙‍♀️🧙‍♀️🧙‍♀️🕯️🐈‍⬛",
+          "a": "b64:ItCT0L7QutGD0YEg0J/QvtC60YPRgSAoMTk5Myki",
+          "accept": "b64:WyLQk9C+0LrRg9GBINCf0L7QutGD0YEiLCJIb2N1cyBQb2N1cyIsItCk0L7QutGD0YEg0J/QvtC60YPRgSIsItCT0L7QutGD0YEt0L/QvtC60YPRgSJd",
+          "fact": "b64:ItCk0ZbQu9GM0Lwg0L/RgNC+INCT0LXQu9C+0LLRltC9INCy0LjQudGI0L7QsiDRgyDQv9GA0L7QutCw0YLigKYg0YMg0LvQuNC/0L3RliAxOTkzINGA0L7QutGDINGWINC/0YDQvtCy0LDQu9C40LLRgdGPLiDQmtGD0LvRjNGC0L7QstC40Lwg0LLRltC9INGB0YLQsNCyINC30LDQstC00Y/QutC4INGJ0L7RgNGW0YfQvdC40Lwg0YLQtdC70LXQv9C+0LrQsNC30LDQvCDRgyDQttC+0LLRgtC90ZYuIg=="
+        },
+        {
+          "type": "emoji",
+          "emoji": "💀👰💍🦋🎹",
+          "a": "b64:ItCi0YDRg9C/INC90LDRgNC10YfQtdC90L7RlyAoMjAwNSki",
+          "accept": "b64:WyLQotGA0YPQvyDQvdCw0YDQtdGH0LXQvdC+0ZciLCJDb3Jwc2UgQnJpZGUiLCLQnNC10YDRgtCy0LAg0L3QsNGA0LXRh9C10L3QsCIsItCd0LDRgNC10YfQtdC90LAt0YLRgNGD0L8iLCLQndCw0YDQtdGH0LXQvdCwINGC0YDRg9C/Il0=",
+          "fact": "b64:ItCS0ZbQutGC0L7RgNCwINC5INCV0LzRltC70ZYg0L7Qt9Cy0YPRh9C40LvQuCDQlNC20L7QvdC90ZYg0JTQtdC/0L8g0ZYg0JPQtdC70LXQvdCwINCR0L7QvdC10Lwg0JrQsNGA0YLQtdGALiI="
+        }
+      ]
+    },
+    {
+      "name": "Поганий відгук",
+      "tagline": "Глядач незадоволений",
+      "rules": "Хтось подивився фільм і залишив дуже чесний відгук на одну-дві зірки. Напишіть на телефоні, про який фільм ідеться. Дрібна помилка в написанні не страшна. На відповідь 30 секунд.",
+      "questions": [
+        {
+          "type": "review",
+          "author": "Оксана, 34",
+          "meta": "Відпочивала взимку в горах. Більше не поїду",
+          "stars": 1,
+          "text": "Чоловік узяв роботу доглядача гірського готелю на всю зиму: мовляв, тиша, спокій, нарешті допише книжку. За кілька місяців надрукував одне речення. Дуже багато разів. Син цілими днями катається коридорами на велосипедику, бармен з'являється, коли йому заманеться, а номер 237 краще взагалі не бронюйте.",
+          "a": "b64:ItCh0Y/QudCy0L4gKDE5ODApIg==",
+          "accept": "b64:WyLQodGP0LnQstC+IiwiVGhlIFNoaW5pbmciLCJTaGluaW5nIl0=",
+          "fact": "b64:ItCh0YbQtdC90YMg0L3QsCDRgdGF0L7QtNCw0YUsINC00LUg0LPQtdGA0L7Rl9C90Y8g0LLRltC00LzQsNGF0YPRlNGC0YzRgdGPINCx0LXQudGB0LHQvtC70YzQvdC+0Y4g0LHQuNGC0L7Rjiwg0KHRgtC10L3Qu9GWINCa0YPQsdGA0LjQuiDQt9C90ZbQvNCw0LIgMTI3INGA0LDQt9GW0LIuIg=="
+        },
+        {
+          "type": "review",
+          "author": "Ірина П.",
+          "meta": "Мама одного з пасажирів",
+          "stars": 1,
+          "text": "Синові наснилося, що наш літак вибухне. Він здійняв такий галас, що частину класу висадили. Літак справді вибухнув, але радіти довелося недовго: тепер усі, хто вийшов, по черзі гинуть через дуже невдалі збіги обставин. Ванну приймати страшно, у машину сідати страшно. Одна зірка авіакомпанії, нуль зірок долі.",
+          "a": "b64:ItCf0YPQvdC60YIg0L/RgNC40LfQvdCw0YfQtdC90L3RjyAoMjAwMCki",
+          "accept": "b64:WyLQn9GD0L3QutGCINC/0YDQuNC30L3QsNGH0LXQvdC90Y8iLCJGaW5hbCBEZXN0aW5hdGlvbiIsItCa0ZbQvdGG0LXQstC40Lkg0L/Rg9C90LrRgiJd",
+          "fact": "b64:ItCh0L/QvtGH0LDRgtC60YMg0JTQttC10YTRhNGA0ZYg0KDQtdC00LTRltC6INC/0LjRgdCw0LIg0YbRjiDRltGB0YLQvtGA0ZbRjiDRj9C6INGB0YbQtdC90LDRgNGW0Lkg0LTQu9GPINGB0LXRgNGW0LDQu9GDIMKr0KbRltC70LrQvtC8INGC0LDRlNC80L3QvsK7LiI="
+        },
+        {
+          "type": "review",
+          "author": "Андрій, 28",
+          "meta": "Їздив знайомитися з батьками дівчини",
+          "stars": 1,
+          "text": "Усі дуже милі. Аж надто. Мама дівчини весь час помішує чай ложечкою, садівник уночі бігає по двору, а гості на вечірці розглядають мене, як товар на розпродажі. Чай більше не п'ю. Знайомитися з батьками більше не їду.",
+          "a": "b64:ItCf0LDRgdGC0LrQsCAoMjAxNyki",
+          "accept": "b64:WyLQn9Cw0YHRgtC60LAiLCJHZXQgT3V0Iiwi0JPQtdGC0YwiLCLQl9Cw0LHQuNGA0LDQudGB0Y8iLCLQktGC0LXRh9CwIl0=",
+          "fact": "b64:ItCU0LbQvtGA0LTQsNC9INCf0ZbQuyDQvtGC0YDQuNC80LDQsiDQt9CwINGG0LXQuSDRgdGG0LXQvdCw0YDRltC5IMKr0J7RgdC60LDRgMK7INGWINGB0YLQsNCyINC/0LXRgNGI0LjQvCDRgtC10LzQvdC+0YjQutGW0YDQuNC8INCw0LLRgtC+0YDQvtC8LCDRj9C60LjQuSDQv9C10YDQtdC80ZbQsyDRgyDQutCw0YLQtdCz0L7RgNGW0ZcgwqvQndCw0LnQutGA0LDRidC40Lkg0L7RgNC40LPRltC90LDQu9GM0L3QuNC5INGB0YbQtdC90LDRgNGW0LnCuy4i"
+        },
+        {
+          "type": "review",
+          "author": "Світлана",
+          "meta": "Мама дівчинки 11 років",
+          "stars": 2,
+          "text": "Переїхали в старий будинок. Донька знайшла за шпалерами маленькі дверцята, а там така сама квартира, тільки батьки уважніші, вечеря смачніша, а замість очей ґудзики. Тепер вона каже, що ми нудні. Ми стараємось, але ґудзики пришивати не будемо.",
+          "a": "b64:ItCa0L7RgNCw0LvRltC90LAgKDIwMDkpIg==",
+          "accept": "b64:WyLQmtC+0YDQsNC70ZbQvdCwIiwi0JrQvtGA0LDQu9GW0L3QsCDQsiDQutGA0LDRl9C90ZYg0LrQvtGI0LzQsNGA0ZbQsiIsIkNvcmFsaW5lIl0=",
+          "fact": "b64:ItCc0LDQudGB0YLRgNC40L3RjyDQkNC70YLQtdGPINCa0YDQvtGD0Lwg0LLRgNGD0YfQvdGDINC30LIn0Y/Qt9Cw0LvQsCDQtNC70Y8g0LvRj9C70YzQutC4INCa0L7RgNCw0LvRltC90LggMTQg0LrRgNC40YXRltGC0L3QuNGFINGB0LLQtdGC0YDRltCyINC90LAg0YHQv9C40YbRj9GFINGW0Lcg0YXRltGA0YPRgNCz0ZbRh9C90L7RlyDRgdGC0LDQu9GWLiI="
+        },
+        {
+          "type": "review",
+          "author": "Анонім",
+          "meta": "Летів на вантажному кораблі. Не рекомендую",
+          "stars": 1,
+          "text": "Колега підхопив щось на чужій планеті, і за обідом із ним стався дуже неприємний інцидент. Далі на борту з'явився пасажир без квитка, який росте швидше за мою зарплату. Науковий співробітник виявився роботом. Вижили тільки я і кіт.",
+          "a": "b64:ItCn0YPQttC40LkgKDE5NzkpIg==",
+          "accept": "b64:WyLQp9GD0LbQuNC5IiwiQWxpZW4iXQ==",
+          "fact": "b64:ItCQ0LrRgtC+0YDRltCyINC/0L7Qv9C10YDQtdC00LjQu9C4LCDRidC+INC3INCz0YDRg9C00LXQuSDQs9C10YDQvtGPINCy0LjQu9GW0LfQtSDRltGB0YLQvtGC0LAsINCw0LvQtSDQvdC1INC/0YDQviDRhNC+0L3RgtCw0L0g0LHRg9GC0LDRhNC+0YDRgdGM0LrQvtGXINC60YDQvtCy0ZYuINCi0L7QtiDRiNC+0Log0JLQtdGA0L7QvdGW0LrQuCDQmtCw0YDRgtGA0LDQudGCINGDINC60LDQtNGA0ZYg0YbRltC70LrQvtC8INGB0L/RgNCw0LLQttC90ZbQuS4i"
+        }
+      ]
+    },
+    {
+      "name": "3 секунди жаху",
+      "tagline": "Дивись уважно",
+      "rules": "Покажемо коротенький фрагмент із трейлера. Подивіться й оберіть на телефоні один із чотирьох варіантів. Моргнули й пропустили? Попросіть ведучу показати ще раз. Після фрагмента на відповідь 30 секунд.",
+      "questions": [
+        {
+          "type": "video",
+          "yt": "A6X4VAHdDVg",
+          "start": 2.9,
+          "end": 6.3,
+          "a": "b64:ItCh0ZbQvNC10LnQutCwINCQ0LTQsNC80YHRltCyICgxOTkxKSI=",
+          "fact": "b64:ItCm0LUg0KDRltGHIOKAlCDRgNGD0LrQsC3Qv9C+0LzRltGH0L3QuNGG0Y8g0YDQvtC00LjQvdC4LiDQoyDRhNGW0LvRjNC80ZYgMTk5MSDRgNC+0LrRgyDRl9GXINC30ZbQs9GA0LDQu9CwINGA0YPQutCwINGE0L7QutGD0YHQvdC40LrQsCDQmtGA0ZbRgdGC0L7RhNC10YDQsCDQk9Cw0YDRgtCwLiI=",
+          "options": [
+            "Едвард Руки-ножиці",
+            "Сімейка Адамсів",
+            "Каспер",
+            "Сонна Лощина"
+          ],
+          "correct": "b64:MQ=="
+        },
+        {
+          "type": "video",
+          "yt": "WR7cc5t7tv8",
+          "start": 26.6,
+          "end": 31.2,
+          "a": "b64:ItCi0LjRhdC1INC80ZbRgdGG0LUgKDIwMTgpIg==",
+          "fact": "b64:ItCi0L7QuSDRgdCw0LzQuNC5INGG0LLRj9GFINC90LAg0YHRhdC+0LTQsNGFLiDQk9C70YPRhdGDINC00L7QvdGM0LrRgyDQs9C10YDQvtGX0LIg0LfRltCz0YDQsNC70LAg0JzRltC70LvRltGB0LXQvdGCINCh0ZbQvNC80L7QvdC00YEsINGP0LrQsCDQvdC1INGH0YPRlCDQuSDRgyDQttC40YLRgtGWLiI=",
+          "options": [
+            "Пташиний короб",
+            "Не дихай",
+            "Тихе місце",
+            "Знаки"
+          ],
+          "correct": "b64:Mg=="
+        },
+        {
+          "type": "video",
+          "yt": "zRiw1nMTUuU",
+          "start": 64.7,
+          "end": 69.3,
+          "a": "b64:ItCX0LDQutC70Y/RgtGC0Y8gKDIwMTMpIg==",
+          "fact": "b64:ItCk0ZbQu9GM0Lwg0LfQsNGB0L3QvtCy0LDQvdC40Lkg0L3QsCDRltGB0YLQvtGA0ZbRlyDQv9C+0LTRgNGD0LbQttGPINC00L7RgdC70ZbQtNC90LjQutGW0LIg0L/QsNGA0LDQvdC+0YDQvNCw0LvRjNC90L7Qs9C+INCV0LTQsCDQuSDQm9C+0YDRgNC10LnQvSDQktC+0YDRgNC10L0uIg==",
+          "options": [
+            "Астрал",
+            "Синістер",
+            "Амітівільський жах",
+            "Закляття"
+          ],
+          "correct": "b64:Mw=="
+        },
+        {
+          "type": "video",
+          "yt": "BcDK7lkzzsU",
+          "start": 72.5,
+          "end": 77.3,
+          "a": "b64:ItCj0YHQvNGW0YXQvdC40YHRjCAoMjAyMiki",
+          "fact": "b64:ItCk0ZbQu9GM0Lwg0LLQuNGA0ZbRgSDRltC3INC60L7RgNC+0YLQutC+0LzQtdGC0YDQsNC20LrQuCDRgtC+0LPQviDRgdCw0LzQvtCz0L4g0YDQtdC20LjRgdC10YDQsCwg0J/QsNGA0LrQtdGA0LAg0KTRltC90L3QsC4i",
+          "options": [
+            "Усміхнись",
+            "Воно йде за тобою",
+            "Реінкарнація",
+            "Чорний телефон"
+          ],
+          "correct": "b64:MA=="
+        },
+        {
+          "type": "video",
+          "yt": "BRb4U99OU80",
+          "start": 129.5,
+          "end": 132.5,
+          "a": "b64:ItCcM9CT0JDQnSAoMjAyMiki",
+          "fact": "b64:ItCi0LDQvdC10YbRjCDQu9GP0LvRjNC60Lgg0LIg0LrQvtGA0LjQtNC+0YDRliDRgdGC0LDQsiDQstGW0YDRg9GB0L3QuNC8INC80LXQvNC+0Lwg0YnQtSDQtNC+INCy0LjRhdC+0LTRgyDRhNGW0LvRjNC80YMuIg==",
+          "options": [
+            "З машини",
+            "Мертва тиша",
+            "М3ГАН",
+            "Штучний інтелект"
+          ],
+          "correct": "b64:Mg=="
+        }
+      ]
+    },
+    {
+      "name": "Правила виживання",
+      "tagline": "Чого нас навчило кіно",
+      "rules": "Кожен фільм жахів вчить чомусь корисному. Напишіть на телефоні, який фільм навчив нас цього правила. На відповідь 30 секунд.",
+      "questions": [
+        {
+          "type": "rule",
+          "text": "Якщо незнайомець по телефону питає, який твій улюблений фільм жахів, — кидай слухавку.",
+          "a": "b64:ItCa0YDQuNC6ICgxOTk2KSI=",
+          "accept": "b64:WyLQmtGA0LjQuiIsIlNjcmVhbSJd",
+          "fact": "b64:ItCc0LDRgdC60YMg0LLQsdC40LLRhtGWINC30L3QsNC50YjQu9C4INCy0LjQv9Cw0LTQutC+0LLQvjog0L7QtNC90LAg0Lcg0L/RgNC+0LTRjtGB0LXRgNC+0Log0L/QvtCx0LDRh9C40LvQsCDRl9GXINCyINCx0YPQtNC40L3QutGDLCDQutC+0LvQuCDQutC+0LzQsNC90LTQsCDRiNGD0LrQsNC70LAg0LzRltGB0YbRjyDQtNC70Y8g0LfQudC+0LzQvtC6LiI="
+        },
+        {
+          "type": "rule",
+          "text": "Не мочи його, не годуй після півночі й тримай подалі від яскравого світла.",
+          "a": "b64:ItCT0YDQtdC80LvRltC90LggKDE5ODQpIg==",
+          "accept": "b64:WyLQk9GA0LXQvNC70ZbQvdC4IiwiR3JlbWxpbnMiXQ==",
+          "fact": "b64:ItCc0LjQu9C+0LPQviDQk9GW0LfQvNC+INC+0LfQstGD0YfQuNCyINC60L7QvNGW0Log0JPQvtCy0ZYg0JzQtdC90LTQtdC7LiI="
+        },
+        {
+          "type": "rule",
+          "text": "Хай що станеться — тільки не засинай.",
+          "a": "b64:ItCa0L7RiNC80LDRgCDQvdCwINCy0YPQu9C40YbRliDQkifRj9C30ZbQsiAoMTk4NCki",
+          "accept": "b64:WyLQmtC+0YjQvNCw0YAg0L3QsCDQstGD0LvQuNGG0ZYg0JIn0Y/Qt9GW0LIiLCLQltCw0YUg0L3QsCDQstGD0LvQuNGG0ZYg0JIn0Y/Qt9GW0LIiLCJBIE5pZ2h0bWFyZSBvbiBFbG0gU3RyZWV0IiwiTmlnaHRtYXJlIG9uIEVsbSBTdHJlZXQiXQ==",
+          "fact": "b64:ItCm0LUg0L/QtdGA0YjQsCDRgNC+0LvRjCDRgyDQutGW0L3QviDQlNC20L7QvdC90ZYg0JTQtdC/0L/QsC4i"
+        },
+        {
+          "type": "rule",
+          "text": "Не вмикай незнайому відеокасету. А якщо вже подивився, у тебе є сім днів.",
+          "a": "b64:ItCU0LfQstGW0L3QvtC6ICgyMDAyKSI=",
+          "accept": "b64:WyLQlNC30LLRltC90L7QuiIsIlRoZSBSaW5nIiwiUmluZyIsItCg0ZbQvdKR0YMiLCLQoNGW0L3Qs9GDIiwiUmluZ3UiXQ==",
+          "fact": "b64:ItCQ0LzQtdGA0LjQutCw0L3RgdGM0LrQuNC5IMKr0JTQt9Cy0ZbQvdC+0LrCuyDigJQg0YDQuNC80LXQudC6INGP0L/QvtC90YHRjNC60L7Qs9C+INGE0ZbQu9GM0LzRgyDCq9Cg0ZbQvdKR0YPCuyAxOTk4INGA0L7QutGDLiI="
+        },
+        {
+          "type": "rule",
+          "text": "Ніколи не називай його ім'я тричі поспіль.",
+          "a": "b64:ItCR0ZbRgtC70LTQttGO0YEgKDE5ODgpIg==",
+          "accept": "b64:WyLQkdGW0YLQu9C00LbRjtGBIiwi0JHRltGC0LvQtNC20YPRgSIsItCR0ZbRgtC10LvQtNC20Y7RgSIsItCR0ZbRgtC10LvQtNC20YPRgSIsItCR0LXRgtC10LvRjNCz0LXQudC30LUiLCJCZWV0bGVqdWljZSIsIkJlZXRsZSBKdWljZSJd",
+          "fact": "b64:ItCc0LDQudC60Lsg0JrRltGC0L7QvSDRgyDRgNC+0LvRliDQkdGW0YLQu9C00LbRjtGB0LAg0Lcn0Y/QstC70Y/RlNGC0YzRgdGPINC90LAg0LXQutGA0LDQvdGWINC70LjRiNC1INC/0YDQuNCx0LvQuNC30L3QviDQvdCwIDE3INGF0LLQuNC70LjQvS4i"
+        }
+      ]
+    },
+    {
+      "name": "Вгадай по саундтреку",
+      "tagline": "Тільки слухати",
+      "rules": "Ви почуєте музику з фільму, а екран залишиться темним. Послухайте й оберіть на телефоні один із чотирьох варіантів. Після мелодії на відповідь 30 секунд.",
+      "questions": [
+        {
+          "type": "audio",
+          "yt": "mIhCdldRE1U",
+          "start": 0,
+          "end": 12,
+          "a": "b64:ItCl0LXQu9C70L7QstGW0L0gKDE5NzgpIg==",
+          "fact": "b64:ItCU0LbQvtC9INCa0LDRgNC/0LXQvdGC0LXRgCDigJQg0ZYg0YDQtdC20LjRgdC10YAsINGWINC60L7QvNC/0L7Qt9C40YLQvtGALiDQo9GB0Y4g0LzRg9C30LjQutGDINC00L4g0YTRltC70YzQvNGDINCy0ZbQvSDQvdCw0L/QuNGB0LDQsiDQt9CwINGC0YDQuCDQtNC90ZYuIg==",
+          "options": [
+            "Техаська різанина бензопилою",
+            "Хелловін",
+            "П'ятниця, 13-те",
+            "Омен"
+          ],
+          "correct": "b64:MQ=="
+        },
+        {
+          "type": "audio",
+          "yt": "TgNWyBXBC0E",
+          "start": 0,
+          "end": 12,
+          "a": "b64:ItCc0LjRgdC70LjQstGG0ZYg0LfQsCDQv9GA0LjQstC40LTQsNC80LggKDE5ODQpIg==",
+          "fact": "b64:ItCf0ZbRgdC90Y4g0KDQtdGPINCf0LDRgNC60LXRgNCwLdC80L7Qu9C+0LTRiNC+0LPQviDQvdC+0LzRltC90YPQstCw0LvQuCDQvdCwIMKr0J7RgdC60LDRgMK7LiI=",
+          "options": [
+            "Назад у майбутнє",
+            "Каспер",
+            "Мисливці за привидами",
+            "Інопланетянин"
+          ],
+          "correct": "b64:Mg=="
+        },
+        {
+          "type": "audio",
+          "yt": "lugARKhBtX4",
+          "start": 0,
+          "end": 8,
+          "a": "b64:ItCf0YHQuNGF0L4gKDE5NjApIg==",
+          "fact": "b64:ItCT0ZbRh9C60L7QuiDRgdC/0LXRgNGI0YMg0YXQvtGC0ZbQsiwg0YnQvtCxINGB0YbQtdC90LAg0LIg0LTRg9GI0ZYg0LnRiNC70LAg0LHQtdC3INC80YPQt9C40LrQuC4g0JrQvtC80L/QvtC30LjRgtC+0YAg0JHQtdGA0L3QsNGA0LQg0JPQtdGA0YDQvNCw0L3QvSDQv9C10YDQtdC60L7QvdCw0LIg0LnQvtCz0L4g0YHQv9GA0L7QsdGD0LLQsNGC0Lgg0LfRliDRgdC60YDQuNC/0LrQsNC80LguIg==",
+          "options": [
+            "Птахи",
+            "Психо",
+            "Щелепи",
+            "Запаморочення"
+          ],
+          "correct": "b64:MQ=="
+        },
+        {
+          "type": "audio",
+          "yt": "ZVuToMilP0A",
+          "start": 0,
+          "end": 10,
+          "a": "b64:ItCa0L7RiNC80LDRgCDQv9C10YDQtdC0INCg0ZbQt9C00LLQvtC8ICgxOTkzKSI=",
+          "fact": "b64:ItCU0LbQtdC6INCh0LrQtdC70LvRltC90LPRgtC+0L0g0YHQv9GW0LLQsNGUINCz0L7Qu9C+0YHQvtC8INC60L7QvNC/0L7Qt9C40YLQvtGA0LAg0JTQtdC90L3RliDQldC70YTQvNCw0L3QsCwg0LAg0LPQvtCy0L7RgNC40YLRjCDQs9C+0LvQvtGB0L7QvCDQsNC60YLQvtGA0LAg0JrRgNGW0YHQsCDQodCw0YDQsNC90LTQvtC90LAuIg==",
+          "options": [
+            "Франкенвіні",
+            "Монстри на канікулах",
+            "Кошмар перед Різдвом",
+            "Паранорман"
+          ],
+          "correct": "b64:Mg=="
+        },
+        {
+          "type": "audio",
+          "yt": "8c-hUWNiG8A",
+          "start": 0,
+          "end": 14,
+          "a": "b64:ItCV0LrQt9C+0YDRhtC40YHRgiAoMTk3Myki",
+          "fact": "b64:ItCm0LUgwqtUdWJ1bGFyIEJlbGxzwrsg0JzQsNC50LrQsCDQntC70LTRhNGW0LvQtNCwIOKAlCDQvdCw0LnQv9C10YDRiNC40Lkg0YDQtdC70ZbQtyDQu9C10LnQsdC70YMgVmlyZ2luIFJlY29yZHMuIg==",
+          "options": [
+            "Екзорцист",
+            "Омен",
+            "Дитина Розмарі",
+            "Полтергейст"
+          ],
+          "correct": "b64:MA=="
+        }
+      ]
+    },
+    {
+      "name": "Бліц",
+      "tagline": "Швидко і без роздумів",
+      "rules": "Короткі питання з варіантами і лише 10 секунд на кожне. Обирайте варіант на телефоні. Змінити вибір можна, поки не показали відповідь.",
+      "questions": [
+        {
+          "type": "blitz",
+          "q": "Із якого давнього свята виріс Геловін?",
+          "options": [
+            "Кельтський Самайн",
+            "Римські Сатурналії",
+            "Мексиканський День мертвих",
+            "Свято Івана Купала"
+          ],
+          "correct": "b64:MA==",
+          "a": "b64:ItCa0LXQu9GM0YLRgdGM0LrQuNC5INCh0LDQvNCw0LnQvSI=",
+          "fact": "b64:ItCa0LXQu9GM0YLQuCDQstGW0YDQuNC70LgsINGJ0L4g0LIg0L3RltGHINCh0LDQvNCw0LnQvdGDINC80LXQttCwINC80ZbQtiDRgdCy0ZbRgtC+0Lwg0LbQuNCy0LjRhSDRliDQvNC10YDRgtCy0LjRhSDRgdGC0LDRlCDQvdCw0LnRgtC+0L3RiNC+0Y4uIg=="
+        },
+        {
+          "type": "blitz",
+          "q": "Правда чи міф: перші ліхтарі «Джека» в Ірландії вирізали не з гарбузів, а з ріпи.",
+          "options": [
+            "Правда",
+            "Міф"
+          ],
+          "correct": "b64:MA==",
+          "a": "b64:ItCf0YDQsNCy0LTQsCI=",
+          "fact": "b64:ItCT0LDRgNCx0YPQt9C4INGB0YLQsNC70Lgg0LPQvtC70L7QstC90LjQvNC4INCy0LbQtSDQsiDQkNC80LXRgNC40YbRljog0ZfRhSDQsdGD0LvQviDQsdGW0LvRjNGI0LUsINGWINGA0ZbQt9Cw0YLQuCDQu9C10LPRiNC1LiI="
+        },
+        {
+          "type": "blitz",
+          "q": "Правда чи міф: «кров» у знаменитій сцені в душі з «Психо» — це шоколадний сироп.",
+          "options": [
+            "Правда",
+            "Міф"
+          ],
+          "correct": "b64:MA==",
+          "a": "b64:ItCf0YDQsNCy0LTQsCI=",
+          "fact": "b64:ItCk0ZbQu9GM0Lwg0YfQvtGA0L3Qvi3QsdGW0LvQuNC5LCDRliDQvdCwINC/0LvRltCy0YbRliDRgdC40YDQvtC/INCy0LjQs9C70Y/QtNCw0LIg0L/QtdGA0LXQutC+0L3Qu9C40LLRltGI0LUg0LfQsCDQsdGD0YLQsNGE0L7RgNGB0YzQutGDINC60YDQvtCyLiI="
+        },
+        {
+          "type": "blitz",
+          "q": "Правда чи міф: «Хелловін» 1978 року знімали восени, щоб на екрані було справжнє осіннє листя.",
+          "options": [
+            "Правда",
+            "Міф"
+          ],
+          "correct": "b64:MQ==",
+          "a": "b64:ItCc0ZbRhCI=",
+          "fact": "b64:ItCX0L3RltC80LDQu9C4INC90LDQstC10YHQvdGWINCyINCa0LDQu9GW0YTQvtGA0L3RltGXLCDQsCDCq9C+0YHRltC90L3RlMK7INC70LjRgdGC0Y8g0YXRg9C00L7QttC90LjQuiDRhNCw0YDQsdGD0LLQsNCyINGWINGA0L7Qt9C60LjQtNCw0LIg0Lcg0LzRltGI0LrRltCyLiI="
+        },
+        {
+          "type": "blitz",
+          "q": "Маска Майкла Маєрса з «Хелловіна» — це перефарбована маска…",
+          "options": [
+            "Капітана Кірка",
+            "Дарта Вейдера",
+            "Елвіса Преслі",
+            "Супермена"
+          ],
+          "correct": "b64:MA==",
+          "a": "b64:ItCa0LDQv9GW0YLQsNC90LAg0JrRltGA0LrQsCI=",
+          "fact": "b64:ItCc0LDRgdC60YMg0LPQtdGA0L7RjyDCq9CX0L7RgNGP0L3QvtCz0L4g0YjQu9GP0YXRg8K7ICjQktGW0LvRjNGP0Lwg0KjQtdGC0L3QtdGAKSDQutGD0L/QuNC70Lgg0LIg0LzQsNCz0LDQt9C40L3RliDQuSDQv9C+0YTQsNGA0LHRg9Cy0LDQu9C4INCyINCx0ZbQu9C40LkuIg=="
+        },
+        {
+          "type": "blitz",
+          "q": "Правда чи міф: Стівен Кінг був у захваті від того, як Кубрик екранізував його «Сяйво».",
+          "options": [
+            "Правда",
+            "Міф"
+          ],
+          "correct": "b64:MQ==",
+          "a": "b64:ItCc0ZbRhCI=",
+          "fact": "b64:ItCa0ZbQvdCzINGA0L7QutCw0LzQuCDQstGW0LTQutGA0LjRgtC+INC60YDQuNGC0LjQutGD0LLQsNCyINGG0Y4g0LXQutGA0LDQvdGW0LfQsNGG0ZbRji4i"
+        },
+        {
+          "type": "blitz",
+          "q": "Що Фредді Крюгер носить на голові?",
+          "options": [
+            "Капелюх-федору",
+            "Ковбойський капелюх",
+            "Каску",
+            "Бейсболку"
+          ],
+          "correct": "b64:MA==",
+          "a": "b64:ItCa0LDQv9C10LvRjtGFLdGE0LXQtNC+0YDRgyI=",
+          "fact": "b64:ItCQINGJ0LUg0YHQstC10YLRgCDRgyDRh9C10YDQstC+0L3Qvi3Qt9C10LvQtdC90YMg0YHQvNGD0LbQutGDINGWINGA0YPQutCw0LLQuNGG0Y4g0Lcg0LvQtdC30LDQvNC4LiI="
+        },
+        {
+          "type": "blitz",
+          "q": "Як звати моторошну ляльку із «Закляття», яка потім отримала власні фільми?",
+          "options": [
+            "Чакі",
+            "Аннабель",
+            "Меган",
+            "Біллі"
+          ],
+          "correct": "b64:MQ==",
+          "a": "b64:ItCQ0L3QvdCw0LHQtdC70Ywi",
+          "fact": "b64:ItCh0L/RgNCw0LLQttC90Y8gwqvQkNC90L3QsNCx0LXQu9GMwrsg0Lcg0ZbRgdGC0L7RgNGW0Zcg0JLQvtGA0YDQtdC90ZbQsiDigJQg0LfQstC40YfQsNC50L3QsCDQs9Cw0L3Rh9GW0YAn0Y/QvdCwINC70Y/Qu9GM0LrQsCwg0LfQvtCy0YHRltC8INC90LUg0YHRhdC+0LbQsCDQvdCwINC60ZbQvdC+0YjQvdGDLiI="
+        },
+        {
+          "type": "blitz",
+          "q": "Правда чи міф: батьків у «Тихому місці» грає справжнє подружжя.",
+          "options": [
+            "Правда",
+            "Міф"
+          ],
+          "correct": "b64:MA==",
+          "a": "b64:ItCf0YDQsNCy0LTQsCI=",
+          "fact": "b64:ItCm0LUg0JTQttC+0L0g0JrRgNCw0YHRltC90YHQutGWINGC0LAg0JXQvNGW0LvRliDQkdC70LDQvdGCLiDQmtGA0LDRgdGW0L3RgdC60ZYg0YnQtSDQuSDQt9GA0LXQttC40YHQtdGA0YPQstCw0LIg0YTRltC70YzQvC4i"
+        },
+        {
+          "type": "blitz",
+          "q": "Який із цих фільмів вийшов найпершим?",
+          "options": [
+            "Пила",
+            "Дзвінок",
+            "Крик",
+            "Пункт призначення"
+          ],
+          "correct": "b64:Mg==",
+          "a": "b64:ItCa0YDQuNC6Ig==",
+          "fact": "b64:IsKr0JrRgNC40LrCuyDigJQgMTk5NiwgwqvQn9GD0L3QutGCINC/0YDQuNC30L3QsNGH0LXQvdC90Y/CuyDigJQgMjAwMCwgwqvQlNC30LLRltC90L7QusK7IOKAlCAyMDAyLCDCq9Cf0LjQu9Cwwrsg4oCUIDIwMDQuIg=="
+        }
+      ]
+    }
+  ]
+}

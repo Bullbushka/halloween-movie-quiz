@@ -1,0 +1,10 @@
+# Бібліотеки (ставляться через start.bat / npm install)
+node_modules/
+
+# Збережений стан гри (імена гравців, бали)
+data/
+
+# Службове
+*.log
+.DS_Store
+Thumbs.db
