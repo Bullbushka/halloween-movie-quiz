@@ -32,6 +32,7 @@ function fail(msg) {
   process.exit(1);
 }
 const TEST_FILE = path.join(ROOT, "test-questions.json");
+const EASY_FILE = process.env.QUESTIONS_EASY_FILE || path.join(ROOT, "questions-easy.json");
 const GRACE_MS = 700; // запас на затримку мережі, щоб відповідь в останню мить не губилась
 
 // Читає файл питань і готує все, що потрібно для гри. Повертає {error} замість падіння.
@@ -60,27 +61,41 @@ function loadQuiz(file) {
   return {
     quiz, steps, settings,
     // Час на відповідь у секундах; можна змінити в settings.timer або полем "time" в окремому питанні
-    times: Object.assign({ normal: 30, blitz: 10 }, settings.timer || {}),
+    // review — питання-відгуки (блок «Поганий відгук»): їх довше читати
+    times: Object.assign({ normal: 30, review: 40, blitz: 15 }, settings.timer || {}),
     hash: crypto.createHash("sha1").update(raw).digest("hex")
   };
 }
 
-// Два набори питань: справжні та тестові заглушки (кнопка «Тест» на титульному екрані)
-const QUIZZES = { real: loadQuiz(QUESTIONS_FILE), test: loadQuiz(TEST_FILE) };
-if (QUIZZES.real.error) fail(QUIZZES.real.error);
+// Набори питань: складний рівень (questions.json), легкий (questions-easy.json, необов'язковий)
+// і тестові заглушки (кнопка «Тест» на титульному екрані)
+const QUIZZES = { hard: loadQuiz(QUESTIONS_FILE), easy: null, test: loadQuiz(TEST_FILE) };
+if (QUIZZES.hard.error) fail(QUIZZES.hard.error);
+if (fs.existsSync(EASY_FILE)) {
+  QUIZZES.easy = loadQuiz(EASY_FILE);
+  if (QUIZZES.easy.error) {
+    console.log("\n  Легкий рівень вимкнено, гра працює з одним рівнем.\n  " + QUIZZES.easy.error + "\n");
+    QUIZZES.easy = null;
+  }
+}
+if (!QUIZZES.easy) delete QUIZZES.easy;
 if (QUIZZES.test.error) {
   console.log("  Тестовий режим вимкнено: " + QUIZZES.test.error);
   delete QUIZZES.test;
 }
+const HAS_LEVELS = !!QUIZZES.easy;   // без легкого файлу — один рівень і без вибору
+const LEVEL_NAMES = { hard: "Складний рівень", easy: "Легкий рівень", test: "Тестова гра" };
+const isLevel = m => m === "hard" || m === "easy";
+const otherLevel = m => (HAS_LEVELS && isLevel(m) ? (m === "hard" ? "easy" : "hard") : null);
 
 // Поточний набір; перемикається функцією useMode()
 let MODE, QUIZ, STEPS, SETTINGS, TIMES, QHASH;
 function useMode(mode) {
-  const L = QUIZZES[mode] || QUIZZES.real;
-  MODE = QUIZZES[mode] ? mode : "real";
-  ({ quiz: QUIZ, steps: STEPS, settings: SETTINGS, times: TIMES, hash: QHASH } = L);
+  if (mode === "real") mode = "hard"; // назва зі старих збережень
+  MODE = QUIZZES[mode] ? mode : "hard";
+  ({ quiz: QUIZ, steps: STEPS, settings: SETTINGS, times: TIMES, hash: QHASH } = QUIZZES[MODE]);
 }
-useMode("real");
+useMode("hard");
 
 const qOf = st => QUIZ.blocks[st.bi].questions[st.qi];
 function publicQuestion(q) {
@@ -90,32 +105,41 @@ function publicQuestion(q) {
 }
 
 /* ---------- стан гри (зберігається у data/state.json) ---------- */
-function freshGame(players) {
+// Кожен рівень — окрема гра: новий рівень = нові бали й відповіді, гравці ті самі
+function freshGame(players, played = {}) {
   return {
-    mode: MODE,              // "real" або "test"
+    mode: MODE,              // "hard", "easy" або "test"
     qHash: QHASH,
     gameId: crypto.randomUUID(),
     step: players.length ? 1 : 0,
-    players,                 // [{id, name, adj}]
+    players,                 // [{id, name, sticker, adj}]
     answers: {},             // key -> pid -> {v, t, auto, ov}
     revealed: {},            // key -> true
-    timers: {}               // key -> час завершення (мс)
+    timers: {},              // key -> час завершення (мс)
+    played                   // рівень -> хеш файлу: які рівні вже дограли до фіналу
   };
 }
+const keepPlayers = players => players.map(p => ({ id: p.id, name: p.name, sticker: p.sticker, adj: 0 }));
+
 let S = freshGame([]);
 try {
   if (fs.existsSync(STATE_FILE)) {
     const d = JSON.parse(fs.readFileSync(STATE_FILE, "utf8"));
     if (d && Array.isArray(d.players)) {
-      useMode(d.mode || "real");
-      if (d.qHash === QHASH && (d.mode || "real") === MODE) {
-        S = Object.assign(S, d);
-        console.log(`  Відновлено гру: ${S.players.length} гравців, крок ${S.step + 1} з ${STEPS.length}.`);
+      const mode = d.mode === "real" ? "hard" : (d.mode || "hard");
+      // «Зіграні» рівні рахуються лише поки їхній файл не змінився
+      const played = {};
+      for (const [m, h] of Object.entries(d.played || {})) if (QUIZZES[m] && QUIZZES[m].hash === h) played[m] = h;
+      if (QUIZZES[mode] && d.qHash === QUIZZES[mode].hash) {
+        useMode(mode);
+        S = Object.assign(S, d, { mode, played });
+        console.log(`  Відновлено гру (${LEVEL_NAMES[MODE].toLowerCase()}): ${S.players.length} гравців, крок ${S.step + 1} з ${STEPS.length}.`);
       } else {
-        useMode("real");
-        S = freshGame(d.players.map(p => ({ id: p.id, name: p.name, sticker: p.sticker, adj: 0 })));
+        // Змінився (або зник) файл саме цього рівня: скидаємо лише його бали
+        useMode(mode);
+        S = freshGame(keepPlayers(d.players), played);
         S.step = 0;
-        console.log("  Файл питань змінився, тому бали скинуто. Гравців збережено.");
+        console.log(`  Файл питань (${LEVEL_NAMES[MODE].toLowerCase()}) змінився, тому бали скинуто. Гравців збережено.`);
       }
     }
   }
@@ -124,6 +148,7 @@ try {
 }
 S.step = Math.max(0, Math.min(S.step, STEPS.length - 1));
 if (!S.timers) S.timers = {};
+if (!S.played) S.played = {};
 
 let saveTimer = null;
 function saveSoon() {
@@ -179,7 +204,8 @@ function displayAnswer(q, v) {
 
 /* ---------- таймер ---------- */
 const isClip = q => q.type === "video" || q.type === "audio";
-const qTime = q => Number(q.time) > 0 ? Number(q.time) : (q.type === "blitz" ? TIMES.blitz : TIMES.normal);
+// Час на питання: поле "time" у самому питанні, інакше за типом (review, blitz…), інакше звичайний
+const qTime = q => Number(q.time) > 0 ? Number(q.time) : (Number(TIMES[q.type]) > 0 ? Number(TIMES[q.type]) : TIMES.normal);
 
 function startTimer(st) {
   if (!st || S.timers[st.key] || S.revealed[st.key]) return false;
@@ -241,10 +267,14 @@ function hostView() {
     total: STEPS.length,
     step: { t: st.t, bi: st.bi, qi: st.qi },
     // Назва з титульного екрана завжди справжня: вибір «Почати гру» / «Тест» робиться саме там
-    title: QUIZZES.real.quiz.title,
-    subtitle: QUIZZES.real.quiz.subtitle,
+    title: QUIZZES.hard.quiz.title,
+    subtitle: QUIZZES.hard.quiz.subtitle,
     mode: MODE,
     hasTest: !!QUIZZES.test,
+    hasLevels: HAS_LEVELS,
+    levelName: LEVEL_NAMES[MODE],
+    otherLevel: otherLevel(MODE),
+    played: Object.keys(S.played),
     blocks: QUIZ.blocks.map(b => ({ name: b.name, tagline: b.tagline, rules: b.rules, count: b.questions.length })),
     players: S.players.map(p => ({ id: p.id, name: p.name, sticker: stickerOf(p), score: sc[p.id] || 0, online: online.has(p.id) })),
     ranked: rankedPlayers(sc),
@@ -291,7 +321,9 @@ function playerView(pid) {
     me: { name: p.name, sticker: stickerOf(p), score: sc[pid] || 0, place: placeOf(sc, pid), of: S.players.length },
     phase: st.t,
     title: QUIZ.title,
-    test: MODE === "test"
+    test: MODE === "test",
+    // Підпис унизу телефона: «Тестова гра» або рівень (якщо рівнів два)
+    levelName: MODE === "test" || HAS_LEVELS ? LEVEL_NAMES[MODE] : null
   };
   if (st.bi != null) view.block = { num: st.bi + 1, name: QUIZ.blocks[st.bi].name };
   if (st.t === "q") {
@@ -357,9 +389,13 @@ app.get("/qr.svg", (req, res) => res.type("image/svg+xml").set("Cache-Control", 
 // Для /check: лише технічні дані роликів, без назв і відповідей
 app.get("/api/videos", (req, res) => {
   const list = [];
-  QUIZZES.real.quiz.blocks.forEach((b, bi) => b.questions.forEach((q, qi) => {
-    if (q.type === "video" || q.type === "audio") list.push({ bi: bi + 1, qi: qi + 1, type: q.type, yt: q.yt, start: q.start, end: q.end });
-  }));
+  for (const lv of ["easy", "hard"]) {
+    if (!QUIZZES[lv]) continue;
+    QUIZZES[lv].quiz.blocks.forEach((b, bi) => b.questions.forEach((q, qi) => {
+      if (q.type === "video" || q.type === "audio")
+        list.push({ level: HAS_LEVELS ? LEVEL_NAMES[lv] : null, bi: bi + 1, qi: qi + 1, type: q.type, yt: q.yt, start: q.start, end: q.end });
+    }));
+  }
   res.json(list);
 });
 app.get("/api/stickers", (req, res) => res.json(STICKERS));
@@ -404,6 +440,8 @@ io.on("connection", socket => {
     if (n < 0 || n >= STEPS.length) return;
     resumeTimer(); // на випадок, якщо пішли з питання на паузі
     S.step = n;
+    // Дійшли до фіналу: рівень вважається зіграним (на фіналі з'явиться кнопка іншого рівня)
+    if (STEPS[n].t === "final" && isLevel(MODE)) S.played[MODE] = QHASH;
     onEnterStep();
     broadcast();
   }));
@@ -449,20 +487,23 @@ io.on("connection", socket => {
     }
     broadcast();
   }));
+  // «Нова гра»: бали поточного рівня скидаються, гравці лишаються, «зіграні» рівні забуваються
   socket.on("host:newgame", hostOnly(() => {
-    S = freshGame(S.players.map(p => ({ id: p.id, name: p.name, sticker: p.sticker, adj: 0 })));
+    S = freshGame(keepPlayers(S.players));
     broadcast();
     saveNow();
   }));
 
-  // Кнопки «Почати гру» / «Тест» на титульному екрані. Якщо набір питань змінюється,
-  // починаємо нову гру з тими самими гравцями (бали й відповіді іншого набору не мають сенсу).
+  // Старт набору питань: «Почати гру» / «Тест» на титульному екрані, вибір рівня в лобі,
+  // «Зіграти інший рівень» у фіналі. mode: "hard" | "easy" | "test" | "level" (поточний або складний).
+  // Якщо набір змінюється — нова гра з тими самими гравцями, бали й відповіді з нуля. Завжди веде в лобі.
   socket.on("host:start", hostOnly(({ mode } = {}) => {
-    const m = mode === "test" && QUIZZES.test ? "test" : "real";
+    let m = mode;
+    if (m === "level" || !QUIZZES[m]) m = isLevel(MODE) ? MODE : "hard";
     if (m !== MODE) {
       clearTimeout(expiryTimer);
       useMode(m);
-      S = freshGame(S.players.map(p => ({ id: p.id, name: p.name, sticker: p.sticker, adj: 0 })));
+      S = freshGame(keepPlayers(S.players), S.played);
     }
     S.step = 1;
     onEnterStep();
@@ -477,7 +518,7 @@ io.on("connection", socket => {
   socket.on("host:quit", hostOnly(() => {
     clearTimeout(expiryTimer);
     clearTimeout(saveTimer);
-    useMode("real");
+    useMode("hard");
     S = freshGame([]);
     for (const f of [STATE_FILE, STATE_FILE + ".tmp"]) {
       try { fs.unlinkSync(f); } catch (e) {}
@@ -546,6 +587,7 @@ server.listen(PORT, "0.0.0.0", () => {
   onEnterStep(); // якщо сервер перезапустили посеред питання
   const hostUrl = `http://localhost:${PORT}/host`;
   console.log("\n  🎃  Ніч кіношного жаху: сервер працює\n");
+  console.log("  Рівні:           " + (HAS_LEVELS ? "легкий і складний" : "один (файлу questions-easy.json немає)"));
   console.log("  Екран ведучої:   " + hostUrl);
   console.log("  Для телефонів:   " + JOIN.url);
   JOIN.others.forEach(u => console.log("  (або)            " + u));

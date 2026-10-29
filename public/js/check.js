@@ -31,7 +31,7 @@ function rowHTML(it, k) {
   const cls = it.status === "ok" ? "ok" : it.status === "bad" ? "bad" : it.status === "wait" ? "wait" : "";
   const s = it.status === "ok" ? "✅ Грає" : it.status === "bad" ? "❌ Не грає" : it.status === "wait" ? "Перевіряємо…" : "—";
   return `<div class="row ${cls}">
-    <span class="w">Блок ${it.bi} · Питання ${it.qi}</span>
+    <span class="w">${it.level ? esc(it.level) + " · " : ""}Блок ${it.bi} · Питання ${it.qi}</span>
     <span class="s">${s}</span>
     <span class="k">${kind} · ${it.end - it.start} с</span>
     ${it.why ? `<span class="why">${esc(it.why)}</span>` : ""}

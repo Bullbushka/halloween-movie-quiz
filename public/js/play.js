@@ -131,7 +131,8 @@ function showJoin() {
 function render() {
   $("#top").hidden = false;
   $("#meName").textContent = (P.me.sticker ? P.me.sticker + " " : "") + P.me.name;
-  $("#foot").textContent = P.test ? "Тестова гра" : "Ніч кіношного жаху";
+  // Непомітна позначка рівня внизу телефона (або «Тестова гра»)
+  $("#foot").textContent = P.levelName || "Ніч кіношного жаху";
   $("#meScore").textContent = `${P.me.score} ${plural(P.me.score,"бал","бали","балів")}`;
 
   const q = P.q;

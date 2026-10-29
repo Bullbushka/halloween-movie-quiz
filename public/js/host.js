@@ -66,7 +66,9 @@ function renderHeader(st) {
   const cur = st.bi != null ? st.bi : (st.t === "final" ? G.blocks.length : -1);
   $("#progress").innerHTML = G.blocks.map((b,k)=>`<i class="${k<cur?'done':k===cur?'now':''}" title="${esc(b.name)}"></i>`).join("");
   const where = st.bi != null ? `Блок ${st.bi+1} · ${esc(G.blocks[st.bi].name)}` : "";
-  $("#where").innerHTML = (G.mode === "test" && st.t !== "title" ? `<span class="testbadge">Тест</span>` : "") + where;
+  // Непомітна позначка рівня (лише коли рівнів два); у тестовій грі — помітна плашка «Тест»
+  const lvl = G.hasLevels && G.mode !== "test" && st.t !== "title" ? `<span class="levelmark">${esc(G.levelName)}</span>` : "";
+  $("#where").innerHTML = (G.mode === "test" && st.t !== "title" ? `<span class="testbadge">Тест</span>` : "") + lvl + (lvl && where ? " · " : "") + where;
 }
 
 function viewTitle() {
@@ -75,7 +77,7 @@ function viewTitle() {
     <h1 class="flicker">${esc(G.title)}</h1>
     <p class="lead">${esc(G.subtitle)}</p>
     <div style="display:flex;gap:.6em;flex-wrap:wrap;justify-content:center">
-      <button class="btn" data-start="real">Почати гру</button>
+      <button class="btn" data-start="level">Почати гру</button>
       ${G.hasTest ? `<button class="btn ghost" data-start="test" title="Гра з питаннями-заглушками, щоб усе перевірити">Тест</button>` : ""}
       ${G.hasProgress ? `<button class="btn ghost" data-newgame>Нова гра</button>` : ""}
     </div>
@@ -98,8 +100,15 @@ function viewLobby() {
         <p class="hint" id="hint"></p>
       </div>
     </div>
+    ${levelPicker()}
     <button class="btn" data-go="next">Почати гру</button>
   </div>`;
+}
+// Вибір рівня в лобі (лише якщо є обидва файли питань і це не тестова гра)
+function levelPicker() {
+  if (!G.hasLevels || G.mode === "test") return "";
+  const b = (m, label) => `<button class="${G.mode === m ? "on" : ""}" data-level="${m}"${G.mode === m ? ' aria-pressed="true"' : ""}>${label}</button>`;
+  return `<div class="levels"><span class="levels-label">Рівень</span>${b("easy", "Легкий")}${b("hard", "Складний")}</div>`;
 }
 
 function viewIntro(bi) {
@@ -197,9 +206,13 @@ function finalHTML() {
   const h = [12, 18, 8]; // висота стовпчиків п'єдесталу у vh (2-ге, 1-ше, 3-тє місце)
   const pod = r.length ? `<div class="podium">${top.map((p,k)=>p?`<div><div class="psticker">${esc(p.sticker || "🎃")}</div><div class="name">${esc(p.name)}</div><div class="pts">${p.score} ${plural(p.score,"бал","бали","балів")}</div><div class="col" style="height:${h[k]}vh">${placeOf(p)}</div></div>`:`<div></div>`).join("")}</div>` : "";
   const rest = r.slice(3);
+  // Кнопка іншого рівня — лише якщо його ще не грали; вона веде в лобі, щоб могли приєднатися нові гравці
+  const other = G.otherLevel && !G.played.includes(G.otherLevel)
+    ? `<button class="btn" data-start="${G.otherLevel}">Зіграти ${G.otherLevel === "easy" ? "легкий" : "складний"} рівень</button>` : "";
   return `<h1 class="flicker" style="font-size:clamp(2.4rem,min(6vw,10vh),6rem)">${r[0] ? "Переможець: "+esc(r[0].name) : "Гру завершено"}</h1>
     ${pod}
-    ${rest.length ? `<div class="board rest">${rest.map(p=>`<div><span class="pos">${placeOf(p)}</span><span>${who(p)}</span><span class="pts">${p.score}</span></div>`).join("")}</div>` : ""}`;
+    ${rest.length ? `<div class="board rest">${rest.map(p=>`<div><span class="pos">${placeOf(p)}</span><span>${who(p)}</span><span class="pts">${p.score}</span></div>`).join("")}</div>` : ""}
+    <div class="final-actions">${other}<button class="btn${other ? " ghost" : ""}" data-newgame>Нова гра</button></div>`;
 }
 
 /* Частини, що змінюються без перемальовування всього екрана (щоб не зупиняти відео) */
@@ -234,7 +247,7 @@ function fillDynamic(st) {
 function renderFooter(st) {
   const showChips = (st.t === "q" || st.t === "intro") && G.players.length;
   const chips = showChips ? `<div class="chips">${G.players.map(p=>`<span class="chip${p.online?'':' off'}" id="chip-${esc(p.id)}"><button data-minus="${esc(p.id)}" aria-label="Мінус бал ${esc(p.name)}">−</button><span class="nm">${who(p)}</span><span class="sc">${p.score}</span><button class="plus" data-plus="${esc(p.id)}" aria-label="Плюс бал ${esc(p.name)}">+</button></span>`).join("")}</div>` : "";
-  const navs = st.t === "title" ? "" : `<div class="nav"><button class="btn ghost" data-go="prev">← Назад</button>${st.t!=="final" ? `<button class="btn" data-go="next">Далі →</button>` : `<button class="btn ghost" data-newgame>Нова гра</button>`}</div>`;
+  const navs = st.t === "title" ? "" : `<div class="nav"><button class="btn ghost" data-go="prev">← Назад</button>${st.t!=="final" ? `<button class="btn" data-go="next">Далі →</button>` : ""}</div>`;
   $("#footer").innerHTML = chips + navs;
   for (const p of G.players) {
     if (prevScores[p.id] != null && prevScores[p.id] !== p.score) {
@@ -293,14 +306,17 @@ document.addEventListener("click", e => {
   const t = e.target.closest("button");
   if (!t || !G) return;
   if (t.dataset.go) go(t.dataset.go === "next" ? 1 : -1);
-  else if (t.dataset.start) {
-    const mode = t.dataset.start;
-    // Перемикання між справжньою і тестовою грою скидає бали поточної гри
-    if (G.hasProgress && mode !== G.mode) {
-      ask(mode === "test"
-        ? "Почати тестову гру? Бали справжньої гри скинуться, гравці залишаться."
-        : "Почати справжню гру? Тестові бали скинуться, гравці залишаться.",
+  else if (t.dataset.start || t.dataset.level) {
+    // «level» з титульного екрана = поточний рівень (або складний, якщо щойно грали тест)
+    const mode = t.dataset.start || t.dataset.level;
+    const target = mode === "level" ? (G.mode === "test" ? "hard" : G.mode) : mode;
+    const names = { hard: "складний рівень", easy: "легкий рівень", test: "тестову гру" };
+    // Інший набір питань = нова гра. Питаємо, лише якщо поточну гру не дограли до фіналу.
+    if (target !== G.mode && G.hasProgress && G.step.t !== "final") {
+      ask(`Почати ${names[target]}? Бали поточної гри скинуться, гравці залишаться.`,
         "Так, почати", () => send("host:start", { mode }));
+    } else if (t.dataset.level && target === G.mode) {
+      // вже обраний рівень — нічого не робимо
     } else send("host:start", { mode });
   }
   else if (t.dataset.plus) send("host:adj", { pid: t.dataset.plus, d: 1 });
@@ -345,7 +361,7 @@ function openMenu(withExit) {
   const m = $("#menu");
   m.innerHTML = `<div class="eyebrow">${withExit ? "Меню" : "Знайдено незавершену гру"}</div>
     <h2>${withExit ? "Що робимо?" : "З поверненням!"}</h2>
-    <p class="lead">${G.mode === "test" ? "Тестова гра · " : ""}${esc(whereNow())}${n ? ` · ${n} ${plural(n,"гравець","гравці","гравців")}` : ""}</p>
+    <p class="lead">${G.mode === "test" ? "Тестова гра · " : G.hasLevels ? esc(G.levelName) + " · " : ""}${esc(whereNow())}${n ? ` · ${n} ${plural(n,"гравець","гравці","гравців")}` : ""}</p>
     <div class="menu-actions">
       <button class="btn" id="mContinue">Продовжити</button>
       <button class="btn ghost" id="mNew">Нова гра</button>
