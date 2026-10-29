@@ -87,21 +87,23 @@ function viewTitle() {
 
 function viewLobby() {
   const warn = G.join.noLan ? `<p class="hint">Ноутбук не підключений до Wi-Fi. Підключіться і перезапустіть гру.</p>` : "";
-  return `<div class="stage">
+  // Дві колонки однакової висоти: QR із підписом про Wi-Fi і картка «Гравці»; під ними — рівень і старт
+  return `<div class="stage lobby">
     <div class="eyebrow">Скануйте QR-код телефоном</div>
     <h2>Хто грає?</h2>
     <div class="lobby-grid">
-      <div class="qr"><img src="/qr.svg?${Date.now()}" alt="QR-код для входу в гру"></div>
-      <div class="lobby-side">
-        <div class="small">Телефон має бути в <b>тій самій Wi-Fi мережі</b>, що й ноутбук.</div>
+      <div class="qr-col">
+        <div class="qr"><img src="/qr.svg?${Date.now()}" alt="QR-код для входу в гру"></div>
+        <div class="small wifi">Телефон має бути в <b class="nowrap">тій самій Wi-Fi мережі</b>, що й ноутбук.</div>
         ${warn}
-        <div class="count" id="lobbyCount"></div>
+      </div>
+      <div class="lobby-side">
+        <div class="side-head"><span class="side-title">Гравці</span><span class="side-count" id="lobbyCount"></span></div>
         <div class="plist" id="lobbyList"></div>
         <p class="hint" id="hint"></p>
       </div>
     </div>
-    ${levelPicker()}
-    <button class="btn" data-go="next">Почати гру</button>
+    <div class="lobby-actions"><button class="btn" data-go="next">Почати гру</button>${levelPicker()}</div>
   </div>`;
 }
 // Вибір рівня в лобі (лише якщо є обидва файли питань і це не тестова гра)
@@ -219,9 +221,11 @@ function finalHTML() {
 function fillDynamic(st) {
   if (st.t === "lobby") {
     const n = G.players.length;
-    $("#lobbyCount").innerHTML = n ? `У грі <b>${n}</b> ${plural(n,"гравець","гравці","гравців")}` : "";
+    $("#lobbyCount").textContent = n || "";
     $("#lobbyList").innerHTML = G.players.map(p=>`<span class="${p.online?'':'off'}">${who(p)} <button data-remove="${esc(p.id)}" aria-label="Прибрати ${esc(p.name)}">×</button></span>`).join("")
       || `<span class="empty">Поки нікого. Чекаємо, поки хтось зайде…</span>`;
+    // До 6 гравців плашки великі, щоб заповнити колонку поруч із QR і читатися з дивана
+    $("#lobbyList").classList.toggle("big", n > 0 && n <= 6);
     if (n) $("#hint").textContent = "";
   }
   if (st.t === "q" && !G.revealed) {
@@ -247,7 +251,7 @@ function fillDynamic(st) {
 function renderFooter(st) {
   const showChips = (st.t === "q" || st.t === "intro") && G.players.length;
   const chips = showChips ? `<div class="chips">${G.players.map(p=>`<span class="chip${p.online?'':' off'}" id="chip-${esc(p.id)}"><button data-minus="${esc(p.id)}" aria-label="Мінус бал ${esc(p.name)}">−</button><span class="nm">${who(p)}</span><span class="sc">${p.score}</span><button class="plus" data-plus="${esc(p.id)}" aria-label="Плюс бал ${esc(p.name)}">+</button></span>`).join("")}</div>` : "";
-  const navs = st.t === "title" ? "" : `<div class="nav"><button class="btn ghost" data-go="prev">← Назад</button>${st.t!=="final" ? `<button class="btn" data-go="next">Далі →</button>` : ""}</div>`;
+  const navs = st.t === "title" ? "" : `<div class="nav"><button class="btn ghost" data-go="prev">← Назад</button>${st.t!=="final" && st.t!=="lobby" ? `<button class="btn" data-go="next">Далі →</button>` : ""}</div>`;
   $("#footer").innerHTML = chips + navs;
   for (const p of G.players) {
     if (prevScores[p.id] != null && prevScores[p.id] !== p.score) {
